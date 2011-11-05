@@ -10,9 +10,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
-	<groupId>org.moologger</groupId>
 	<artifactId>moologger-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>MooLogger Web Module</name>
 
