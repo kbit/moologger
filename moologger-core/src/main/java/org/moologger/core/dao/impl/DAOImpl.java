@@ -1,14 +1,9 @@
 package org.moologger.core.dao.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.moologger.core.dao.DAO;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
 
-public abstract class DAOImpl<T> implements DAO<T> {
-	
-	@PersistenceContext
-    private EntityManager entityManager;
+public abstract class DAOImpl<T> extends JpaDaoSupport implements DAO<T> {
 
     private Class<T> type;
 
@@ -17,28 +12,20 @@ public abstract class DAOImpl<T> implements DAO<T> {
     }
 
     public T create(T t) {
-        entityManager.persist(t);
+    	getJpaTemplate().persist(t);
         return t;
     }
     
     public T get(Long id) {
-        return (T) entityManager.find(type, id);
+        return (T) getJpaTemplate().find(type, id);
     }
     
     public T set(T t) {
-        return entityManager.merge(t);    
+        return getJpaTemplate().merge(t);    
     }
 
     public void delete(T t) {
-        entityManager.remove(t);
-    }
-    
-    public EntityManager getEntityManager() {
-    	return entityManager;
-    }
-    
-    public void setEntityManager(EntityManager entityManager) {
-    	this.entityManager = entityManager;
+    	getJpaTemplate().remove(t);
     }
 
 }

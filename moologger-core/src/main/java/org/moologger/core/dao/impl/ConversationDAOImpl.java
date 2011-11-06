@@ -1,15 +1,20 @@
 package org.moologger.core.dao.impl;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.moologger.core.Conversation;
 import org.moologger.core.Message;
 import org.moologger.core.dao.ConversationDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("conversationDAO")
 public class ConversationDAOImpl extends DAOImpl<Conversation> implements ConversationDAO {
-
-	public ConversationDAOImpl() {
+	
+	@Autowired
+	public ConversationDAOImpl(EntityManagerFactory entityManagerFactory) {
 		super(Conversation.class);
+		super.setEntityManagerFactory(entityManagerFactory);
 	}
 
 	public void addMessage(Conversation conversation, Message message) {

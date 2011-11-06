@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbit">
+        <createTable tableName="principals">
+            <column name="principal_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="identifier" type="varchar(255)" />
+            <column name="protocol" type="varchar(25)" />
+        </createTable>
+        <createTable tableName="messages">
+            <column name="message_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp" type="date" />
+            <column name="principal_id" type="bigint">
+                <constraints foreignKeyName="fk_principal_id" references="principals(principal_id)" nullable="false"/>
+            </column>
+            <column name="text" type="varchar(255)" />
+        </createTable>
+        <createTable tableName="conversations">
+            <column name="conversation_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="start_timestamp" type="date" />
+            <column name="end_timestamp" type="date" />
+        </createTable>
+        <createTable tableName="conversations_messages">
+            <column name="conversation_id" type="bigint">
+                <constraints foreignKeyName="fk_conversation_id" references="conversations(conversation_id)" nullable="false"/>
+            </column>
+            <column name="message_id" type="bigint">
+                <constraints foreignKeyName="fk_message_id" references="messages(message_id)" nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="logs">
+			<column name="log_id" type="bigint">
+			    <constraints primaryKey="true" nullable="false"/>
+			</column>
+        </createTable>
+        <createTable tableName="logs_conversations">
+            <column name="log_id" type="bigint">
+                <constraints foreignKeyName="fk_log_id" references="logs(log_id)" nullable="false"/>
+            </column>
+            <column name="conversation_id" type="bigint">
+                <constraints foreignKeyName="fk_conversation_id" references="conversations(conversation_id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+ 
+</databaseChangeLog>
