@@ -14,12 +14,13 @@
 		<module>moologger-core</module>
 		<module>moologger-web</module>
 	</modules>
-
-    <properties>
-       <hibernate.version>3.5.6-Final</hibernate.version>
-	   <liquibase.version>2.0.3</liquibase.version>
-	   <slf4j.version>1.5.8</slf4j.version>
-	   <spring.version>3.0.6.RELEASE</spring.version>
+	
+	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hibernate.version>3.5.6-Final</hibernate.version>
+        <liquibase.version>2.0.3</liquibase.version>
+        <slf4j.version>1.5.8</slf4j.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
 	</properties>
 
     <dependencies>

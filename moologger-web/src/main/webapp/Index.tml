@@ -1,0 +1,11 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      title="Index">
+
+    <t:form>
+        <input t:type="upload" t:id="file" t:value="file" validate="required" />
+    
+        <t:submit t:id="save" value="Save" />
+        <t:submit t:id="cancel" value="Cancel" />
+    </t:form>
+
+</html>

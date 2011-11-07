@@ -16,9 +16,20 @@
 	
 	<properties>
 	   <jetty.version>8.0.4.v20111024</jetty.version>
+	   <tapestry.version>5.3.0</tapestry.version>
 	</properties>
-
+	
 	<dependencies>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-core</artifactId>
+            <version>${tapestry.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-upload</artifactId>
+            <version>${tapestry.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.moologger</groupId>
 			<artifactId>moologger-core</artifactId>
