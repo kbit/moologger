@@ -13,6 +13,7 @@
 	<modules>
 		<module>moologger-core</module>
 		<module>moologger-web</module>
+		<module>moologger-oscar</module>
 	</modules>
 	
 	<properties>
