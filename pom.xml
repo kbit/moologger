@@ -18,13 +18,32 @@
 	
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
         <hibernate.version>3.5.6-Final</hibernate.version>
+        <jetty.version>8.0.4.v20111024</jetty.version>
         <liquibase.version>2.0.3</liquibase.version>
         <slf4j.version>1.5.8</slf4j.version>
         <spring.version>3.0.6.RELEASE</spring.version>
+		<web.context.path>/moologger</web.context.path>
+		
+		<database.driver>org.postgresql.Driver</database.driver>
+		<database.dialect>org.hibernate.dialect.PostgreSQLDialect</database.dialect>
+		<database.url>jdbc:postgresql://localhost/moologger</database.url>
+		<database.username>moologger</database.username>
+		<database.password>moologger</database.password>
 	</properties>
 
     <dependencies>
+    	<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.2.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.4</version>
+		</dependency>
         <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-annotations</artifactId>
@@ -72,7 +91,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
 	</dependencies>
@@ -97,6 +116,34 @@
                 </configuration>
             </plugin>
 	    </plugins>
+	    <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.liquibase</groupId>
+                                        <artifactId>liquibase-maven-plugin</artifactId>
+                                        <versionRange>[${liquibase.version}]</versionRange>
+                                        <goals>
+                                            <goal>update</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

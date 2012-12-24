@@ -1,5 +1,6 @@
 package org.moologger.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Conversation {
     		   joinColumns = 		@JoinColumn(name="conversation_id"),
     		   inverseJoinColumns = @JoinColumn(name="message_id")
     )
-	private List<Message> messages;
+	private List<Message> messages = new ArrayList<Message>();
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_timestamp")

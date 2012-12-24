@@ -1,5 +1,6 @@
 package org.moologger.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Log {
     		   joinColumns = 		@JoinColumn(name="log_id"),
     		   inverseJoinColumns = @JoinColumn(name="conversation_id")
     )
-	private List<Conversation> conversations;
+	private List<Conversation> conversations = new ArrayList<Conversation>();
 
 	public Long getLogId() {
 		return logId;

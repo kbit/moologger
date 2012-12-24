@@ -2,100 +2,77 @@ package org.moologger.oscar.parser;
 
 import java.io.InputStream;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
-import org.moologger.core.Conversation;
-import org.moologger.core.Log;
-import org.moologger.core.Message;
-import org.moologger.core.Principal;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.moologger.core.Protocol;
-import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
+import org.moologger.core.parser.XMLParser;
 
-public class OscarParser implements Parser {
+public class OscarParser extends XMLParser {
 	
-	private static final String twelveHourDateFormat = "(h:mm a)";
-
-	public Log parse(InputStream... inputStreams) throws ParserException {
-		SAXReader reader = new SAXReader();
+	private static final String FULL_DATE_FORMAT = "EEE dd MMM yyyy hh:mm:ss aa zzz";
+	private static final String TWELVE_HOUR_TIME_FORMAT = "(hh:mm:ss a)";
+	
+	protected StreamSource getXSLT() {
+		InputStream xslt = getClass().getClassLoader().getResourceAsStream("log.xslt");
+		return new StreamSource(xslt);
+	}
+	
+	protected Date getStartTimestamp(String startTimestampString) throws ParserException {
+		Date startTimestamp = null;
 		
-		List<Document> documents = new ArrayList<Document>();
 		try {
-			for (InputStream inputStream : inputStreams) {
-				documents.add(reader.read(inputStream));
-			}
-		} catch (DocumentException de) {
-			throw new ParserException(de);
-		}
-		
-        return getLog(documents);
-	}
-	
-	private Log getLog(List<Document> documents) throws ParserException {
-		Log log = new Log();
-		
-		for (Document document : documents) {
-			log.addConversation(getConversation(document));
-		}
-		
-		return log;
-	}
-	
-	private Conversation getConversation(Document document) throws ParserException {
-		Conversation conversation = new Conversation();
-		
-		List<Node> messages = document.selectNodes("/html/body/font");
-		
-		for (Node message : messages) {
-			conversation.addMessage(getMessage(message));
-		}
-		
-		return conversation;
-	}
-	
-	private Message getMessage(Node node) throws ParserException {
-		Message message = new Message();
-		
-		message.setTimestamp(getTimestamp(node));
-		message.setPrincipal(getPrincipal(node));
-		message.setText(getText(node));
-		
-		return message;
-	}
-	
-	private Date getTimestamp(Node node) throws ParserException {
-		String timestampText = node.selectSingleNode("font").getText();
-		
-		Date date = null;
-		try {
-			date = DateUtils.parseDate(timestampText, new String[] {twelveHourDateFormat});
+			startTimestamp = DateUtils.parseDate(startTimestampString, new String[] {FULL_DATE_FORMAT});
 		} catch (ParseException pe) {
 			throw new ParserException(pe);
 		}
 		
-		return date;
+		return startTimestamp;
 	}
 	
-	private Principal getPrincipal(Node node) {
-		String principalText = node.selectSingleNode("b").getText();
-		
-		Principal principal = new Principal();
-		principal.setIdentifier(StringUtils.removeEnd(principalText, ":"));
-		principal.setProtocol(Protocol.OSCAR);
-		
-		return principal;
+	protected Date getEndTimestamp(String endTimestampString) throws ParserException {
+		return null;
 	}
 	
-	private String getText(Node node) {
-		return node.selectSingleNode("following-sibling::text()[1]").getText();
+	protected Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException {
+		Date timestamp = null;
+
+		try {
+			LocalDate date = new LocalDate(startTimestamp);
+			LocalTime time = new LocalTime(DateUtils.parseDate(timestampString, new String[] {TWELVE_HOUR_TIME_FORMAT}));
+			
+			timestamp = date.toLocalDateTime(time).toDate();
+		} catch (ParseException pe) {
+			throw new ParserException(pe);
+		}
+		
+		return timestamp;
+	}
+	
+	protected Protocol getProtocol() {
+		return Protocol.OSCAR;
+	}
+	
+	protected String getIdentifier(String identifierString) {
+		return StringUtils.stripEnd(identifierString, ":");
+	}
+	
+	protected String getText(List<Node> nodes) {
+		StringBuilder builder = new StringBuilder();
+		
+		for (Node node : nodes) {
+			builder.append(node.asXML());
+		}
+		
+		return StringUtils.stripToEmpty(builder.toString());
 	}
 
 }
