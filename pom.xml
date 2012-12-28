@@ -111,8 +111,11 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
-                    <propertyFileWillOverride>true</propertyFileWillOverride>
-                    <propertyFile>liquibase.properties</propertyFile>
+                	<driver>${database.driver}</driver>
+					<url>${database.url}</url>
+					<username>${database.username}</username>
+					<password>${database.password}</password>
+					<dropFirst>true</dropFirst>
                 </configuration>
             </plugin>
 	    </plugins>

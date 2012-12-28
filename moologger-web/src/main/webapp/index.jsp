@@ -1,0 +1,1 @@
+<jsp:forward page="uploads"></jsp:forward>

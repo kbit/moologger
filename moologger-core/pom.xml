@@ -57,7 +57,7 @@
                     <execution>
                         <phase>process-resources</phase>
                         <configuration>
-                            <propertyFile>liquibase.properties</propertyFile>
+                            <changeLogFile>db.changelog.xml</changeLogFile>
                         </configuration>
                         <goals>
                             <goal>update</goal>

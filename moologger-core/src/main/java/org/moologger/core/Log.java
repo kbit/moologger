@@ -2,26 +2,43 @@ package org.moologger.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "logs")
+@Table(name = "logs_t")
 public class Log {
 	
 	@Id
 	@Column(name = "log_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "log_id_s")
+	@SequenceGenerator(name = "log_id_s", sequenceName = "log_id_s", allocationSize = 1)
 	private Long logId;
 	
-	@OneToMany
-    @JoinTable(name = "logs_conversations",
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "start_timestamp")
+	private Date startTimestamp;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "end_timestamp")
+	private Date endTimestamp;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "logs_conversations_t",
     		   joinColumns = 		@JoinColumn(name="log_id"),
     		   inverseJoinColumns = @JoinColumn(name="conversation_id")
     )
@@ -33,6 +50,22 @@ public class Log {
 
 	public void setLogId(Long logId) {
 		this.logId = logId;
+	}
+
+	public Date getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public void setStartTimestamp(Date startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+
+	public Date getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public void setEndTimestamp(Date endTimestamp) {
+		this.endTimestamp = endTimestamp;
 	}
 
 	public List<Conversation> getConversations() {
