@@ -15,10 +15,20 @@
 	<name>MooLogger Web Module</name>
 	
 	<properties>
-	   <web.context.path>/moologger-web</web.context.path>
+		<jetty.version>8.0.4.v20111024</jetty.version>
 	</properties>
 	
 	<dependencies>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.2.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.moologger</groupId>
 			<artifactId>moologger-core</artifactId>
@@ -29,6 +39,16 @@
 			<artifactId>moologger-oscar</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 	</dependencies>
 	
     <build>
