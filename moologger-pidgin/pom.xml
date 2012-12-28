@@ -10,9 +10,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>moologger-oscar</artifactId>
+    <artifactId>moologger-pidgin</artifactId>
     <packaging>jar</packaging>
-    <name>MooLogger Oscar Protocol Module</name>
+    <name>MooLogger Pidgin Module</name>
     
     <dependencies>
         <dependency>
