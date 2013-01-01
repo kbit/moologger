@@ -2,12 +2,17 @@ package org.moologger.core.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.moologger.core.dao.DAO;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class DAOImpl<T> extends JpaDaoSupport implements DAO<T> {
+public abstract class DAOImpl<T> implements DAO<T> {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
     private Class<T> type;
 
@@ -16,25 +21,33 @@ public abstract class DAOImpl<T> extends JpaDaoSupport implements DAO<T> {
     }
 
     public T create(T t) {
-    	getJpaTemplate().persist(t);
+    	getEntityManager().persist(t);
         return t;
     }
     
     @SuppressWarnings("unchecked")
 	public List<T> getAll() {
-    	return (List<T>) getJpaTemplate().find("FROM " + type.getSimpleName());
+    	return getEntityManager().createQuery("FROM " + type.getSimpleName()).getResultList();
     }
     
     public T get(Long id) {
-        return (T) getJpaTemplate().find(type, id);
+        return (T) getEntityManager().find(type, id);
     }
     
     public T set(T t) {
-        return getJpaTemplate().merge(t);    
+        return getEntityManager().merge(t);    
     }
 
     public void delete(T t) {
-    	getJpaTemplate().remove(t);
+    	getEntityManager().remove(t);
     }
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 }

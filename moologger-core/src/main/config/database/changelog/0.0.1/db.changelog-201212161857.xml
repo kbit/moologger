@@ -52,7 +52,7 @@
 	</changeSet>
     
     <changeSet id="5" author="kbit">
-        <createSequence sequenceName="logs_id_s" />
+        <createSequence sequenceName="log_id_s" />
         <createTable tableName="logs_t">
 			<column name="log_id" type="bigint">
 			    <constraints primaryKey="true" nullable="false" />

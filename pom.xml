@@ -20,7 +20,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <slf4j.version>1.5.8</slf4j.version>
-        <spring.version>3.0.6.RELEASE</spring.version>
+        <spring.version>3.2.0.RELEASE</spring.version>
+
+		<database.driver>org.postgresql.Driver</database.driver>
+		<database.dialect>org.hibernate.dialect.PostgreSQLDialect</database.dialect>
+		<database.url>jdbc:postgresql://localhost/moologger</database.url>
+		<database.username>moologger</database.username>
+		<database.password>moologger</database.password>
 	</properties>
 
     <dependencies>
