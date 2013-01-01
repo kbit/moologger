@@ -1,6 +1,7 @@
 package org.moologger.web.upload;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -33,12 +35,14 @@ public class UploadController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String upload(@ModelAttribute("upload") Upload upload, BindingResult result) {
 		Parser parser = ParserRegistry.getParser();
-      
+		List<MultipartFile> files = upload.getFiles();
+		
 		try {
-			Log newLog = parser.parse(upload.getFile().getInputStream());
-			
-			getLogService().addLog(newLog);
-			
+			for (MultipartFile file : files) {
+				Log newLog = parser.parse(file.getInputStream());
+				
+				getLogService().addLog(newLog);
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (ParserException pe) {

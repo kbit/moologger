@@ -1,11 +1,14 @@
 package org.moologger.web.upload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Upload {
 	
 	private String name;
-	private MultipartFile file;
+	private List<MultipartFile> files = new ArrayList<MultipartFile>();
 	 
 	public String getName() {
 		return name;
@@ -15,12 +18,12 @@ public class Upload {
 		this.name = name;
 	}
 	 
-	public MultipartFile getFile() {
-		return file;
+	public List<MultipartFile> getFiles() {
+		return files;
 	}
 	 
-	public void setFile(MultipartFile file) {
-		this.file = file;
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
 	}
 
 }

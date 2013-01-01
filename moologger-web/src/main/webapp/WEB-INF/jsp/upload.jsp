@@ -6,7 +6,7 @@
     </head>
     <body>
     	<f:form action="uploads/add" enctype="multipart/form-data" method="POST">  
-	    	<f:input path="file" type="file" />      
+	    	<input name="files" type="file" multiple="" />      
 	    	<input name="Submit" type="submit" />  
     	</f:form>
     </body>

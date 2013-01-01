@@ -2,7 +2,6 @@ package org.moologger.core.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +27,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public abstract class XMLParser implements Parser {
-	
-	public List<Log> parse(InputStream... inputStreams) throws ParserException {
-		List<Log> logs = new ArrayList<Log>();
-		
-		for (InputStream inputStream : inputStreams) {
-			logs.add(parse(inputStream));
-		}
-		
-		return logs;
-	}
 	
 	public Log parse(InputStream inputStream) throws ParserException {
 		Log log = new Log();

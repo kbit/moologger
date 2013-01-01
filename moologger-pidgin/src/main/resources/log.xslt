@@ -18,14 +18,25 @@
 	
 	<xsl:template match="FONT[@color]">
 		<xsl:variable name="key" select="." />
+		<xsl:variable name="auto-reply" select="substring(B, string-length(B) - 13) = ' &lt;AUTO-REPLY&gt;:'" />
 		<message>
 			<timestamp>
 				<xsl:value-of select="FONT" />
 			</timestamp>
 			<principal>
-				<xsl:value-of select="B" />
+				<xsl:choose>
+					<xsl:when test="$auto-reply">
+						<xsl:value-of select="substring-before(B, ' &lt;AUTO-REPLY&gt;:')" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="substring-before(B, ':')" />
+					</xsl:otherwise>
+				</xsl:choose>
 			</principal>
 			<text>
+				<xsl:if test="$auto-reply">
+					<xsl:value-of select="'&lt;AUTO-REPLY&gt; '" />
+				</xsl:if>
 				<xsl:for-each select="following-sibling::node()[preceding-sibling::FONT[@color][1] = $key and not(self::FONT[@color])]">
 					<xsl:copy-of select="." />
 				</xsl:for-each>

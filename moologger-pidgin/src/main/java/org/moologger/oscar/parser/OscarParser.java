@@ -95,7 +95,7 @@ public class OscarParser extends XMLParser {
 	}
 	
 	protected String getIdentifier(String identifierString) {
-		return StringUtils.stripEnd(identifierString, ":");
+		return identifierString;
 	}
 	
 	protected String getText(List<Node> nodes) {
