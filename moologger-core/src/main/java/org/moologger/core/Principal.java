@@ -2,8 +2,6 @@ package org.moologger.core;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +22,7 @@ public class Principal {
 	private String identifier;
 	
 	@Column(name = "protocol")
-	@Enumerated(EnumType.STRING)
-	private Protocol protocol;
+	private String protocol;
 
 	public Long getPrincipalId() {
 		return principalId;
@@ -43,11 +40,11 @@ public class Principal {
 		this.identifier = identifier;
 	}
 
-	public Protocol getProtocol() {
+	public String getProtocol() {
 		return protocol;
 	}
 
-	public void setProtocol(Protocol protocol) {
+	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
 

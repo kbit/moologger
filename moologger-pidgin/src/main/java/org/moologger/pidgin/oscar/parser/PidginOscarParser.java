@@ -1,4 +1,4 @@
-package org.moologger.oscar.parser;
+package org.moologger.pidgin.oscar.parser;
 
 import java.io.InputStream;
 import java.text.ParseException;
@@ -15,17 +15,26 @@ import org.joda.time.LocalTime;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
-import org.moologger.core.Protocol;
 import org.moologger.core.parser.ParserException;
 import org.moologger.core.parser.XMLParser;
+import org.springframework.stereotype.Component;
 
-public class OscarParser extends XMLParser {
+@Component
+public class PidginOscarParser extends XMLParser {
 	
 	private static final String FULL_DATE_FORMAT = "EEE dd MMM yyyy hh:mm:ss aa zzz";
 	private static final String TWELVE_HOUR_TIME_FORMAT = "(hh:mm:ss a)";
 	
+	public String getClient() {
+		return "Pidgin";
+	}
+	
+	public String getProtocol() {
+		return "Oscar";
+	}
+	
 	protected StreamSource getXSLT() {
-		InputStream xslt = getClass().getClassLoader().getResourceAsStream("log.xslt");
+		InputStream xslt = getClass().getClassLoader().getResourceAsStream("org/moologger/pidgin/oscar/pidgin-oscar.xslt");
 		return new StreamSource(xslt);
 	}
 	
@@ -88,10 +97,6 @@ public class OscarParser extends XMLParser {
 		}
 		
 		return timestamp;
-	}
-	
-	protected Protocol getProtocol() {
-		return Protocol.OSCAR;
 	}
 	
 	protected String getIdentifier(String identifierString) {

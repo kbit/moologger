@@ -6,10 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.moologger.core.Log;
-import org.moologger.core.dao.LogService;
-import org.moologger.core.parser.Parser;
+import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.ParserException;
-import org.moologger.web.registry.ParserRegistry;
+import org.moologger.core.parser.registry.impl.ParserRegistryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class UploadController {
 	
 	@Resource
-	private LogService logService;
+	private ParserRegistryImpl parserRegistry;
+	
+	@Resource
+	private MoologgerService moologgerService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showUploads() {
@@ -34,14 +36,13 @@ public class UploadController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String upload(@ModelAttribute("upload") Upload upload, BindingResult result) {
-		Parser parser = ParserRegistry.getParser();
 		List<MultipartFile> files = upload.getFiles();
 		
 		try {
 			for (MultipartFile file : files) {
-				Log newLog = parser.parse(file.getInputStream());
+				Log newLog = getParserRegistry().getParser("Pidgin", "Oscar").parse(file.getInputStream());
 				
-				getLogService().addLog(newLog);
+				getMoologgerService().saveLog(newLog);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -52,12 +53,20 @@ public class UploadController {
 		return "redirect:/uploads";
 	}
 	
-	public LogService getLogService() {
-		return logService;
+	public ParserRegistryImpl getParserRegistry() {
+		return parserRegistry;
+	}
+
+	public void setParserRegistry(ParserRegistryImpl parserRegistry) {
+		this.parserRegistry = parserRegistry;
+	}
+
+	public MoologgerService getMoologgerService() {
+		return moologgerService;
 	}
 	
-	public void setLogService(LogService logService) {
-		this.logService = logService;
+	public void setMoologgerService(MoologgerService moologgerService) {
+		this.moologgerService = moologgerService;
 	}
 	  
 }
