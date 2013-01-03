@@ -2,10 +2,18 @@
  
 <html>
     <head>
-        <title>Uploads</title>
+        <title>Upload</title>
     </head>
     <body>
-    	<f:form action="uploads/add" enctype="multipart/form-data" method="POST">  
+    	<f:form action="upload/add" enctype="multipart/form-data" method="POST">  
+			<f:select path="client">
+				<f:option value="" label="Select" />
+				<f:options items="${clients}" />
+			</f:select>
+			<f:select path="protocol">
+				<f:option value="" label="Select" />
+				<f:options items="${protocols}" />
+			</f:select>
 	    	<input name="files" type="file" multiple="" />      
 	    	<input name="Submit" type="submit" />  
     	</f:form>

@@ -5,19 +5,28 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Upload {
+public class UploadModel {
 	
-	private String name;
+	private String client;
+	private String protocol;
 	private List<MultipartFile> files = new ArrayList<MultipartFile>();
 	 
-	public String getName() {
-		return name;
+	public String getClient() {
+		return client;
 	}
-	 
-	public void setName(String name) {
-		this.name = name;
+
+	public void setClient(String client) {
+		this.client = client;
 	}
-	 
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
 	public List<MultipartFile> getFiles() {
 		return files;
 	}

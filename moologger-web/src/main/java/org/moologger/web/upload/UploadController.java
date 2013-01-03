@@ -5,22 +5,25 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.moologger.core.Client;
 import org.moologger.core.Log;
+import org.moologger.core.Protocol;
 import org.moologger.core.dao.MoologgerService;
+import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
 import org.moologger.core.parser.registry.impl.ParserRegistryImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @SessionAttributes
-@RequestMapping("/uploads")
+@RequestMapping("/upload")
 public class UploadController {
 	
 	@Resource
@@ -30,17 +33,23 @@ public class UploadController {
 	private MoologgerService moologgerService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showUploads() {
-		return new ModelAndView("upload", "command", new Upload());
+	public void get(Model model) {
+		model.addAttribute("clients", Client.descriptions());
+		model.addAttribute("protocols", Protocol.descriptions());
+		model.addAttribute("command", new UploadModel());
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String upload(@ModelAttribute("upload") Upload upload, BindingResult result) {
-		List<MultipartFile> files = upload.getFiles();
+	public String upload(@ModelAttribute UploadModel uploadModel, BindingResult result) {
+		String client = uploadModel.getClient();
+		String protocol = uploadModel.getProtocol();
+		List<MultipartFile> files = uploadModel.getFiles();
+		
+		Parser parser = getParserRegistry().getParser(client, protocol);
 		
 		try {
 			for (MultipartFile file : files) {
-				Log newLog = getParserRegistry().getParser("Pidgin", "Oscar").parse(file.getInputStream());
+				Log newLog = parser.parse(file.getInputStream());
 				
 				getMoologgerService().saveLog(newLog);
 			}
@@ -50,7 +59,7 @@ public class UploadController {
 			pe.printStackTrace();
 		}
 		
-		return "redirect:/uploads";
+		return "redirect:/upload";
 	}
 	
 	public ParserRegistryImpl getParserRegistry() {

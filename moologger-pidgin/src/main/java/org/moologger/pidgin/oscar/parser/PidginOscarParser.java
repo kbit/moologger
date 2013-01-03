@@ -12,9 +12,11 @@ import org.apache.commons.lang.time.DateUtils;
 import org.dom4j.Node;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.moologger.core.Client;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
+import org.moologger.core.Protocol;
 import org.moologger.core.parser.ParserException;
 import org.moologger.core.parser.XMLParser;
 import org.springframework.stereotype.Component;
@@ -26,11 +28,11 @@ public class PidginOscarParser extends XMLParser {
 	private static final String TWELVE_HOUR_TIME_FORMAT = "(hh:mm:ss a)";
 	
 	public String getClient() {
-		return "Pidgin";
+		return Client.PIDGIN.description();
 	}
 	
 	public String getProtocol() {
-		return "Oscar";
+		return Protocol.OSCAR.description();
 	}
 	
 	protected StreamSource getXSLT() {
