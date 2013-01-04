@@ -35,13 +35,13 @@ public interface MoologgerService {
 
 	Principal addPrincipal(Principal principal);
 	
-	boolean principalExists(String identifier, String protocol);
+	boolean principalExists(String identifier, String client, String protocol);
 	
 	List<Principal> getAllPrincipals();
 	
 	Principal getPrincipal(long principalId);
 	
-	Principal getPrincipal(String identifier, String protocol);
+	Principal getPrincipal(String identifier, String client, String protocol);
 	
 	void deletePrincipal(Principal principal);
 	

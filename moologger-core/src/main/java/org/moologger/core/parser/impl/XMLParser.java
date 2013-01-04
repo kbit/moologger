@@ -1,4 +1,4 @@
-package org.moologger.core.parser;
+package org.moologger.core.parser.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +23,8 @@ import org.moologger.core.Log;
 import org.moologger.core.Message;
 import org.moologger.core.Principal;
 import org.moologger.core.dao.MoologgerService;
+import org.moologger.core.parser.Parser;
+import org.moologger.core.parser.ParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -73,6 +75,8 @@ public abstract class XMLParser implements Parser {
 	private Log getLog(Node node) throws ParserException {
 		Log log = new Log();
 		
+		log.setClient(getClient());
+		log.setProtocol(getProtocol());
 		log.setStartTimestamp(getLogStartTimestamp(node));
 		log.setEndTimestamp(getLogEndTimestamp(node));
 		
@@ -192,11 +196,14 @@ public abstract class XMLParser implements Parser {
 		
 		if (principalNode != null) {
 			String identifier = getIdentifier(principalNode.getText());
+			String client = getClient();
 			String protocol = getProtocol();
-			if (getMoologgerService().principalExists(identifier, protocol)) {
-				principal = getMoologgerService().getPrincipal(identifier, protocol);
+			
+			if (getMoologgerService().principalExists(identifier, client, protocol)) {
+				principal = getMoologgerService().getPrincipal(identifier, client, protocol);
 			} else {
 				principal.setIdentifier(identifier);
+				principal.setClient(client);
 				principal.setProtocol(protocol);
 			}
 		}

@@ -82,9 +82,10 @@ public class MoologgerServiceImpl implements MoologgerService {
 		return getPrincipalDAO().create(principal);
 	}
 	
-	public boolean principalExists(String identifier, String protocol) {
+	public boolean principalExists(String identifier, String client, String protocol) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("identifier", identifier);
+		params.put("client", client);
 		params.put("protocol", protocol);
 		
 		return getPrincipalDAO().getCount(params) > 0;
@@ -98,9 +99,10 @@ public class MoologgerServiceImpl implements MoologgerService {
 		return getPrincipalDAO().get(principalId);
 	}
 	
-	public Principal getPrincipal(String identifier, String protocol) {
+	public Principal getPrincipal(String identifier, String client, String protocol) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("identifier", identifier);
+		params.put("client", client);
 		params.put("protocol", protocol);
 		
 		return getPrincipalDAO().get(params);

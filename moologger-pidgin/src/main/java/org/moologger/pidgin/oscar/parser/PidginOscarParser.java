@@ -18,7 +18,7 @@ import org.moologger.core.Log;
 import org.moologger.core.Message;
 import org.moologger.core.Protocol;
 import org.moologger.core.parser.ParserException;
-import org.moologger.core.parser.XMLParser;
+import org.moologger.core.parser.impl.XMLParser;
 import org.springframework.stereotype.Component;
 
 @Component

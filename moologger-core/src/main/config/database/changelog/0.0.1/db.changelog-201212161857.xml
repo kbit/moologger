@@ -11,6 +11,7 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="identifier" type="varchar(255)" />
+            <column name="client" type="varchar(25)" />
             <column name="protocol" type="varchar(25)" />
         </createTable>
     </changeSet>
@@ -57,6 +58,8 @@
 			<column name="log_id" type="bigint">
 			    <constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="client" type="varchar(25)" />
+            <column name="protocol" type="varchar(25)" />
 			<column name="start_timestamp" type="datetime" />
             <column name="end_timestamp" type="datetime" />
         </createTable>

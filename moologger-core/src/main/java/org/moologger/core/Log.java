@@ -29,6 +29,12 @@ public class Log {
 	@SequenceGenerator(name = "log_id_s", sequenceName = "log_id_s", allocationSize = 1)
 	private Long logId;
 	
+	@Column(name = "client")
+	private String client;
+	
+	@Column(name = "protocol")
+	private String protocol;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_timestamp")
 	private Date startTimestamp;
@@ -50,6 +56,22 @@ public class Log {
 
 	public void setLogId(Long logId) {
 		this.logId = logId;
+	}
+	
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
 	}
 
 	public Date getStartTimestamp() {

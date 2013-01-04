@@ -21,6 +21,9 @@ public class Principal {
 	@Column(name = "identifier")
 	private String identifier;
 	
+	@Column(name = "client")
+	private String client;
+	
 	@Column(name = "protocol")
 	private String protocol;
 
@@ -38,6 +41,14 @@ public class Principal {
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
 	}
 
 	public String getProtocol() {

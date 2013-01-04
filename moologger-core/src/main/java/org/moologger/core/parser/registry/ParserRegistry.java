@@ -1,6 +1,8 @@
-package org.moologger.core.parser;
+package org.moologger.core.parser.registry;
 
 import java.util.Set;
+
+import org.moologger.core.parser.Parser;
 
 public interface ParserRegistry {
 	
