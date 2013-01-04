@@ -23,7 +23,7 @@
 			<timestamp>
 				<xsl:value-of select="FONT" />
 			</timestamp>
-			<principal>
+			<alias>
 				<xsl:choose>
 					<xsl:when test="$auto-reply">
 						<xsl:value-of select="substring-before(B, ' &lt;AUTO-REPLY&gt;:')" />
@@ -32,7 +32,7 @@
 						<xsl:value-of select="substring-before(B, ':')" />
 					</xsl:otherwise>
 				</xsl:choose>
-			</principal>
+			</alias>
 			<text>
 				<xsl:if test="$auto-reply">
 					<xsl:value-of select="'&lt;AUTO-REPLY&gt; '" />

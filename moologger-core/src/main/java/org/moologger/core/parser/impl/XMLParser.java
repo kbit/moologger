@@ -21,7 +21,7 @@ import org.dom4j.io.DocumentSource;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
-import org.moologger.core.Principal;
+import org.moologger.core.Alias;
 import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
@@ -169,7 +169,7 @@ public abstract class XMLParser implements Parser {
 		Message message = new Message();
 		
 		message.setTimestamp(getTimestamp(node, startTimestamp, endTimestamp));
-		message.setPrincipal(getPrincipal(node));
+		message.setAlias(getAlias(node));
 		message.setText(getText(node));
 		
 		return message;
@@ -189,26 +189,26 @@ public abstract class XMLParser implements Parser {
 	
 	protected abstract Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException;
 	
-	private Principal getPrincipal(Node node) throws ParserException {
-		Principal principal = new Principal();
+	private Alias getAlias(Node node) throws ParserException {
+		Alias alias = new Alias();
 		
-		Node principalNode = node.selectSingleNode("principal");
+		Node aliasNode = node.selectSingleNode("alias");
 		
-		if (principalNode != null) {
-			String identifier = getIdentifier(principalNode.getText());
+		if (aliasNode != null) {
+			String identifier = getIdentifier(aliasNode.getText());
 			String client = getClient();
 			String protocol = getProtocol();
 			
-			if (getMoologgerService().principalExists(identifier, client, protocol)) {
-				principal = getMoologgerService().getPrincipal(identifier, client, protocol);
+			if (getMoologgerService().aliasExists(identifier, client, protocol)) {
+				alias = getMoologgerService().getAlias(identifier, client, protocol);
 			} else {
-				principal.setIdentifier(identifier);
-				principal.setClient(client);
-				principal.setProtocol(protocol);
+				alias.setIdentifier(identifier);
+				alias.setClient(client);
+				alias.setProtocol(protocol);
 			}
 		}
 		
-		return principal;
+		return alias;
 	}
 	
 	protected abstract String getIdentifier(String identifierString) throws ParserException;

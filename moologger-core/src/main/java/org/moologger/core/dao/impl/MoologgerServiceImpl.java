@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
-import org.moologger.core.Principal;
+import org.moologger.core.Alias;
 import org.moologger.core.dao.DAO;
 import org.moologger.core.dao.MoologgerService;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class MoologgerServiceImpl implements MoologgerService {
 	@Resource(name = "conversationDAOImpl")
 	private DAO<Conversation> conversationDAO;
 	
-	@Resource(name = "principalDAOImpl")
-	private DAO<Principal> principalDAO;
+	@Resource(name = "aliasDAOImpl")
+	private DAO<Alias> aliasDAO;
 	
 	public Log addLog(Log log) {
 		return getLogDAO().create(log);
@@ -78,38 +78,38 @@ public class MoologgerServiceImpl implements MoologgerService {
 		return getConversationDAO().set(conversation);
 	}
 	
-	public Principal addPrincipal(Principal principal) {
-		return getPrincipalDAO().create(principal);
+	public Alias addAlias(Alias alias) {
+		return getAliasDAO().create(alias);
 	}
 	
-	public boolean principalExists(String identifier, String client, String protocol) {
+	public boolean aliasExists(String identifier, String client, String protocol) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("identifier", identifier);
 		params.put("client", client);
 		params.put("protocol", protocol);
 		
-		return getPrincipalDAO().getCount(params) > 0;
+		return getAliasDAO().getCount(params) > 0;
 	}
 	
-	public List<Principal> getAllPrincipals() {
-		return getPrincipalDAO().getAll();
+	public List<Alias> getAllAliases() {
+		return getAliasDAO().getAll();
 	}
 	
-	public Principal getPrincipal(long principalId) {
-		return getPrincipalDAO().get(principalId);
+	public Alias getAlias(long aliasId) {
+		return getAliasDAO().get(aliasId);
 	}
 	
-	public Principal getPrincipal(String identifier, String client, String protocol) {
+	public Alias getAlias(String identifier, String client, String protocol) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("identifier", identifier);
 		params.put("client", client);
 		params.put("protocol", protocol);
 		
-		return getPrincipalDAO().get(params);
+		return getAliasDAO().get(params);
 	}
 	
-	public void deletePrincipal(Principal principal) {
-		getPrincipalDAO().delete(principal);
+	public void deleteAlias(Alias alias) {
+		getAliasDAO().delete(alias);
 	}
 
 	public DAO<Log> getLogDAO() {
@@ -128,12 +128,12 @@ public class MoologgerServiceImpl implements MoologgerService {
 		this.conversationDAO = conversationDAO;
 	}
 
-	public DAO<Principal> getPrincipalDAO() {
-		return principalDAO;
+	public DAO<Alias> getAliasDAO() {
+		return aliasDAO;
 	}
 
-	public void setPrincipalDAO(DAO<Principal> principalDAO) {
-		this.principalDAO = principalDAO;
+	public void setAliasDAO(DAO<Alias> aliasDAO) {
+		this.aliasDAO = aliasDAO;
 	}
 
 }

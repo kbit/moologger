@@ -9,14 +9,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "principals_t")
-public class Principal {
+@Table(name = "aliases_t")
+public class Alias {
 	
 	@Id
-	@Column(name = "principal_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "principal_id_s")
-	@SequenceGenerator(name = "principal_id_s", sequenceName = "principal_id_s", allocationSize = 1)
-	private Long principalId;
+	@Column(name = "alias_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alias_id_s")
+	@SequenceGenerator(name = "alias_id_s", sequenceName = "alias_id_s", allocationSize = 1)
+	private Long aliasId;
 
 	@Column(name = "identifier")
 	private String identifier;
@@ -27,12 +27,12 @@ public class Principal {
 	@Column(name = "protocol")
 	private String protocol;
 
-	public Long getPrincipalId() {
-		return principalId;
+	public Long getAliasId() {
+		return aliasId;
 	}
 
-	public void setPrincipalId(Long principalId) {
-		this.principalId = principalId;
+	public void setAliasId(Long aliasId) {
+		this.aliasId = aliasId;
 	}
 
 	public String getIdentifier() {

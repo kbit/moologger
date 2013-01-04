@@ -5,7 +5,7 @@ import java.util.List;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
-import org.moologger.core.Principal;
+import org.moologger.core.Alias;
 
 public interface MoologgerService {
 	
@@ -33,16 +33,16 @@ public interface MoologgerService {
 	
 	Conversation deleteMessage(Conversation conversation, Message message);
 
-	Principal addPrincipal(Principal principal);
+	Alias addAlias(Alias alias);
 	
-	boolean principalExists(String identifier, String client, String protocol);
+	boolean aliasExists(String identifier, String client, String protocol);
 	
-	List<Principal> getAllPrincipals();
+	List<Alias> getAllAliases();
 	
-	Principal getPrincipal(long principalId);
+	Alias getAlias(long aliasId);
 	
-	Principal getPrincipal(String identifier, String client, String protocol);
+	Alias getAlias(String identifier, String client, String protocol);
 	
-	void deletePrincipal(Principal principal);
+	void deleteAlias(Alias alias);
 	
 }

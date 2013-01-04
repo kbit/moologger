@@ -5,9 +5,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="1" author="kbit">
-    	<createSequence sequenceName="principal_id_s" />
-        <createTable tableName="principals_t">
-            <column name="principal_id" type="bigint">
+    	<createSequence sequenceName="alias_id_s" />
+        <createTable tableName="aliases_t">
+            <column name="alias_id" type="bigint">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="identifier" type="varchar(255)" />
@@ -23,8 +23,8 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="timestamp" type="datetime" />
-            <column name="principal_id" type="bigint">
-                <constraints foreignKeyName="fk_principal_id" references="principals_t(principal_id)" nullable="false" />
+            <column name="alias_id" type="bigint">
+                <constraints foreignKeyName="fk_alias_id" references="aliases_t(alias_id)" nullable="false" />
             </column>
             <column name="text" type="clob" />
         </createTable>

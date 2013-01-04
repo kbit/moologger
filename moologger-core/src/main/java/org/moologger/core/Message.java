@@ -30,8 +30,8 @@ public class Message {
 	private Date timestamp;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "principal_id")
-	private Principal principal;
+    @JoinColumn(name = "alias_id")
+	private Alias alias;
 	
 	@Column(name = "text")
 	private String text;
@@ -52,12 +52,12 @@ public class Message {
 		this.timestamp = timestamp;
 	}
 	
-	public Principal getPrincipal() {
-		return principal;
+	public Alias getAlias() {
+		return alias;
 	}
 	
-	public void setPrincipal(Principal principal) {
-		this.principal = principal;
+	public void setAlias(Alias alias) {
+		this.alias = alias;
 	}
 	
 	public String getText() {
