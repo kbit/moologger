@@ -5,9 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.moologger.core.Client;
 import org.moologger.core.Log;
-import org.moologger.core.Protocol;
 import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
@@ -34,8 +32,8 @@ public class UploadController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public void get(Model model) {
-		model.addAttribute("clients", Client.descriptions());
-		model.addAttribute("protocols", Protocol.descriptions());
+		model.addAttribute("clients", getParserRegistry().getClients());
+		model.addAttribute("protocols", getParserRegistry().getProtocols());
 		model.addAttribute("command", new UploadModel());
 	}
 	
