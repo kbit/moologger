@@ -1,11 +1,10 @@
+<%@ include file="/WEB-INF/jsp/header.jsp" %>
+
 <html>
 	<head>
         <title>Index</title>
     </head>
 	<body>
-		<ul>
-			<li><a href="/">Index</a></li>
-			<li><a href="/upload">Upload</a></li>
-		</ul>
+		<moologger:navigation />
 	</body>
 </html>
