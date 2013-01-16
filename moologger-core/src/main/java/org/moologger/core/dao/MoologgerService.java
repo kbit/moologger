@@ -2,10 +2,11 @@ package org.moologger.core.dao;
 
 import java.util.List;
 
+import org.moologger.core.Alias;
 import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
-import org.moologger.core.Alias;
+import org.moologger.core.Principal;
 
 public interface MoologgerService {
 	
@@ -44,5 +45,21 @@ public interface MoologgerService {
 	Alias getAlias(String identifier, String client, String protocol);
 	
 	void deleteAlias(Alias alias);
+	
+	Principal addPrincipal(Principal principal);
+	
+	boolean principalExists(String identifier);
+	
+	List<Principal> getAllPrincipals();
+	
+	Principal getPrincipal(long principalId);
+	
+	Principal getPrincipal(String identifier);
+	
+	Principal savePrincipal(Principal principal);
+	
+	Principal saveAliases(Principal principal, List<Alias> aliases);
+	
+	void deletePrincipal(Principal principal);
 	
 }

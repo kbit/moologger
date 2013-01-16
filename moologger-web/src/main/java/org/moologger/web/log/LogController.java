@@ -1,4 +1,4 @@
-package org.moologger.web.upload;
+package org.moologger.web.log;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @SessionAttributes
-@RequestMapping("/upload")
-public class UploadController {
+@RequestMapping("/logs")
+public class LogController {
 	
 	@Resource
 	private ParserRegistryImpl parserRegistry;
@@ -31,17 +31,19 @@ public class UploadController {
 	private MoologgerService moologgerService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public void get(Model model) {
+	public String get(Model model) {
 		model.addAttribute("clients", getParserRegistry().getClients());
 		model.addAttribute("protocols", getParserRegistry().getProtocols());
-		model.addAttribute("command", new UploadModel());
+		model.addAttribute("command", new LogModel());
+		
+		return "logs";
 	}
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String upload(@ModelAttribute UploadModel uploadModel, BindingResult result) {
-		String client = uploadModel.getClient();
-		String protocol = uploadModel.getProtocol();
-		List<MultipartFile> files = uploadModel.getFiles();
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	public String upload(@ModelAttribute LogModel logModel, BindingResult result) {
+		String client = logModel.getClient();
+		String protocol = logModel.getProtocol();
+		List<MultipartFile> files = logModel.getFiles();
 		
 		Parser parser = getParserRegistry().getParser(client, protocol);
 		
@@ -57,7 +59,7 @@ public class UploadController {
 			pe.printStackTrace();
 		}
 		
-		return "redirect:/upload";
+		return "redirect:/logs";
 	}
 	
 	public ParserRegistryImpl getParserRegistry() {

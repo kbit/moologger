@@ -10,6 +10,7 @@ import org.moologger.core.Conversation;
 import org.moologger.core.Log;
 import org.moologger.core.Message;
 import org.moologger.core.Alias;
+import org.moologger.core.Principal;
 import org.moologger.core.dao.DAO;
 import org.moologger.core.dao.MoologgerService;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class MoologgerServiceImpl implements MoologgerService {
 	
 	@Resource(name = "aliasDAOImpl")
 	private DAO<Alias> aliasDAO;
+	
+	@Resource(name = "principalDAOImpl")
+	private DAO<Principal> principalDAO;
 	
 	public Log addLog(Log log) {
 		return getLogDAO().create(log);
@@ -111,6 +115,45 @@ public class MoologgerServiceImpl implements MoologgerService {
 	public void deleteAlias(Alias alias) {
 		getAliasDAO().delete(alias);
 	}
+	
+	public Principal addPrincipal(Principal principal) {
+		return getPrincipalDAO().create(principal);
+	}
+
+	public boolean principalExists(String identifier) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("identifier", identifier);
+		
+		return getPrincipalDAO().getCount(params) > 0;
+	}
+
+	public List<Principal> getAllPrincipals() {
+		return getPrincipalDAO().getAll();
+	}
+
+	public Principal getPrincipal(long principalId) {
+		return getPrincipalDAO().get(principalId);
+	}
+
+	public Principal getPrincipal(String identifier) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("identifier", identifier);
+		
+		return getPrincipalDAO().get(params);
+	}
+
+	public Principal savePrincipal(Principal principal) {
+		return getPrincipalDAO().set(principal);
+	}
+
+	public Principal saveAliases(Principal principal, List<Alias> aliases) {
+		principal.setAliases(aliases);
+		return getPrincipalDAO().set(principal);
+	}
+
+	public void deletePrincipal(Principal principal) {
+		getPrincipalDAO().delete(principal);
+	}
 
 	public DAO<Log> getLogDAO() {
 		return logDAO;
@@ -134,6 +177,14 @@ public class MoologgerServiceImpl implements MoologgerService {
 
 	public void setAliasDAO(DAO<Alias> aliasDAO) {
 		this.aliasDAO = aliasDAO;
+	}
+
+	public DAO<Principal> getPrincipalDAO() {
+		return principalDAO;
+	}
+
+	public void setPrincipalDAO(DAO<Principal> principalDAO) {
+		this.principalDAO = principalDAO;
 	}
 
 }

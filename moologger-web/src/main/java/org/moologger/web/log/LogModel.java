@@ -1,11 +1,11 @@
-package org.moologger.web.upload;
+package org.moologger.web.log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UploadModel {
+public class LogModel {
 	
 	private String client;
 	private String protocol;

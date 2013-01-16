@@ -29,7 +29,7 @@ public class Message {
 	@Column(name = "timestamp")
 	private Date timestamp;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "alias_id")
 	private Alias alias;
 	

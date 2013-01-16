@@ -27,6 +27,7 @@
 		<database.url>jdbc:postgresql://localhost/moologger</database.url>
 		<database.username>moologger</database.username>
 		<database.password>moologger</database.password>
+		<database.showSql>true</database.showSql>
 	</properties>
 
     <dependencies>

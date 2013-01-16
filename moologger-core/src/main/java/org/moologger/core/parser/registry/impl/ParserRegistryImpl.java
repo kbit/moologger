@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 public class ParserRegistryImpl implements ParserRegistry {
 	
 	private Set<String> clients = new HashSet<String>();
+	
 	private Set<String> protocols = new HashSet<String>();
+	
 	private Map<ParserKey, Parser> parsers = new HashMap<ParserKey, Parser>();
 	
 	@Autowired
@@ -51,6 +53,7 @@ public class ParserRegistryImpl implements ParserRegistry {
 	private class ParserKey {
 		
 		private String client;
+
 		private String protocol;
 		
 		private ParserKey(String client, String protocol) {
@@ -60,20 +63,19 @@ public class ParserRegistryImpl implements ParserRegistry {
 		
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null) { 
-				return false; 
+			if (this == obj) {
+				return true;
 			}
-			if (obj == this) { 
-				return true; 
+			if (obj == null) {
+				return false;
 			}
-			if (obj.getClass() != getClass()) {
-			     return false;
+			if (getClass() != obj.getClass()) {
+				return false;
 			}
-			ParserKey key = (ParserKey) obj;
-			return new EqualsBuilder()
-					.append(client, key.client)
-					.append(protocol, key.protocol)
-					.isEquals();
+			ParserKey parserKey = (ParserKey) obj;
+			return new EqualsBuilder().append(client, parserKey.client)
+									  .append(protocol, parserKey.protocol)
+									  .isEquals();
 		}
 
 		@Override

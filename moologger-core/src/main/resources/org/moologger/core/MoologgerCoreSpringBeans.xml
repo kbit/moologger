@@ -16,6 +16,7 @@
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="databasePlatform" value="${database.dialect}" />
+				<property name="showSql" value="${database.showSql}" />
 			</bean>
 		</property>
     </bean>
