@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.moologger.core.Alias;
 import org.moologger.core.Principal;
 import org.moologger.core.dao.MoologgerService;
@@ -59,26 +60,12 @@ public class AliasController {
                 Long id = null;
 
                 if (element instanceof String) {
-                    try{
-                        id = Long.parseLong((String) element);
-                    } catch (NumberFormatException e) {
-                    }
+                	id = NumberUtils.toLong((String) element);
                 } else if (element instanceof Long) {
-                    id = (Long) element;		Map<String, List<Alias>> aliases = new HashMap<String, List<Alias>>();
-            		for (Alias alias : getMoologgerService().getAllAliases()) {
-            			String aliasKey = "Client: " + alias.getClient() + ", " + "Protocol: " + alias.getProtocol();
-            			List<Alias> aliasValue = aliases.get(aliasKey);
-            			
-            			if (aliasValue == null) {
-            				aliasValue = new ArrayList<Alias>();
-            				aliases.put(aliasKey, aliasValue);
-            			}
-            			
-            			aliasValue.add(alias);
-            		}
+                    id = (Long) element;
                 }
 
-                return id != null ? getMoologgerService().getAlias(id) : null;
+                return getMoologgerService().getAlias(id);
             }
         });
     }
