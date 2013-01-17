@@ -30,11 +30,6 @@
 		    <version>1.2.2</version>
 		</dependency>
 		<dependency>
-			<groupId>displaytag</groupId>
-			<artifactId>displaytag</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.moologger</groupId>
 			<artifactId>moologger-core</artifactId>
 			<version>${project.version}</version>

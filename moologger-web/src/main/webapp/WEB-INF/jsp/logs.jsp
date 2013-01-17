@@ -7,6 +7,25 @@
     <body>
     	<moologger:navigation />
     	
+		<table>
+			<core:forEach items="${logs}" var="log">
+				<tr align="left">
+					<th colspan="2">Log - <format:formatDate value="${log.startTimestamp}" type="both"/>-<format:formatDate value="${log.endTimestamp}" type="both"/></th>
+				</tr>
+				<core:forEach items="${log.conversations}" var="conversation">
+					<tr align="left">
+						<th colspan="2">Conversation - <format:formatDate value="${conversation.startTimestamp}" type="both"/>-<format:formatDate value="${conversation.endTimestamp}" type="both"/></th>
+					</tr>
+					<core:forEach items="${conversation.messages}" var="message">
+						<tr>
+							<td>${message.alias.identifier} (<format:formatDate value="${message.timestamp}" type="time"/>)</td>
+							<td>${message.text}</td>
+						</tr>
+					</core:forEach>
+				</core:forEach>
+			</core:forEach>
+		</table>
+    	
     	<form:form action="logs/new" enctype="multipart/form-data" method="POST">  
 			<ol>
 				<li>

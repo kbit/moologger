@@ -7,17 +7,30 @@
     <body>
     	<moologger:navigation />
 		
-		<display:table name="principals" id="principal">
-			<display:column title="Action"><a href="principals/${principal.principalId}/aliases">Edit</a></display:column>
-			<display:column title="Identifier" property="identifier" />
-			<display:column title="Aliases">
-				<display:table name="${principal.aliases}" id="alias">
-					<display:column property="identifier" title="Identifier" />
-					<display:column property="client" title="Client" />
-					<display:column property="protocol" title="Protocol" />
-				</display:table>
-			</display:column>
-		</display:table>
+		<table>
+			<tr>
+				<th>Action</th>
+				<th>Identifier</th>
+				<th colspan="3">Aliases</th>
+			</tr>
+			<tr>
+				<th colspan="2" />
+				<th>Identifier</th>
+				<th>Client</th>
+				<th>Protocol</th>
+			</tr>
+			<core:forEach items="${principals}" var="principal">
+				<tr>
+					<td><a href="principals/${principal.principalId}/aliases">Edit</a></td>
+					<td>${principal.identifier}</td>
+					<core:forEach items="${principal.aliases}" var="alias">
+						<td>${alias.identifier}</td>
+						<td>${alias.client}</td>
+						<td>${alias.protocol}</td>
+					</core:forEach>
+				</tr>
+			</core:forEach>
+		</table>
     	
     	<form:form action="/principals/new" enctype="multipart/form-data" method="POST">  
 			<ol>

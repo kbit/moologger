@@ -32,6 +32,7 @@ public class LogController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
+		model.addAttribute("logs", getMoologgerService().getAllLogs());
 		model.addAttribute("clients", getParserRegistry().getClients());
 		model.addAttribute("protocols", getParserRegistry().getProtocols());
 		model.addAttribute("command", new LogModel());
