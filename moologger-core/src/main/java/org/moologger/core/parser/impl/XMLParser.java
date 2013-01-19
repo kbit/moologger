@@ -18,10 +18,9 @@ import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
-import org.moologger.core.Conversation;
-import org.moologger.core.Log;
-import org.moologger.core.Message;
 import org.moologger.core.Alias;
+import org.moologger.core.Conversation;
+import org.moologger.core.Message;
 import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
@@ -34,8 +33,8 @@ public abstract class XMLParser implements Parser {
 	@Autowired
 	private MoologgerService moologgerService;
 	
-	public Log parse(InputStream inputStream) throws ParserException {
-		Log log = new Log();
+	public Conversation parse(InputStream inputStream) throws ParserException {
+		Conversation conversation = new Conversation();
 
 		try {
 			DOMParser parser = new DOMParser();
@@ -49,7 +48,7 @@ public abstract class XMLParser implements Parser {
 	        DocumentResult result = new DocumentResult();
 	        transformer.transform(source, result);
 
-	        log = getLog(result.getDocument());
+	        conversation = getConversation(result.getDocument());
 		} catch (IOException ioe) {
 			throw new ParserException(ioe);
 		} catch (SAXException saxe) {
@@ -60,69 +59,23 @@ public abstract class XMLParser implements Parser {
 			throw new ParserException(te);
 		}
 		
-        return log;
+        return conversation;
 	}
 	
 	protected abstract StreamSource getXSLT() throws ParserException;
-	
-	private Log getLog(Document document) throws ParserException {
-		Node log = document.selectSingleNode("log");
+
+	private Conversation getConversation(Document document) throws ParserException {
+		Node conversation = document.selectSingleNode("conversation");
 		
-		return getLog(log);
+		return getConversation(conversation);
 	}
-	
-	@SuppressWarnings("unchecked")
-	private Log getLog(Node node) throws ParserException {
-		Log log = new Log();
-		
-		log.setClient(getClient());
-		log.setProtocol(getProtocol());
-		log.setStartTimestamp(getLogStartTimestamp(node));
-		log.setEndTimestamp(getLogEndTimestamp(node));
-		
-		List<Node> conversations = node.selectNodes("conversation");
-		
-		for (Node conversation :conversations) {
-			log.addConversation(getConversation(conversation));
-		}
-		
-		return getLog(log);
-	}
-	
-	private Date getLogStartTimestamp(Node node) throws ParserException {
-		Date logStartTimestamp = null;
-		
-		Node logStartTimestampNode = node.selectSingleNode("startTimestamp");
-		
-		if (logStartTimestampNode != null) {
-			logStartTimestamp = getLogStartTimestamp(logStartTimestampNode.getText());
-		}
-		
-		return logStartTimestamp;
-	}
-	
-	protected abstract Date getLogStartTimestamp(String logStartTimestampString) throws ParserException;
-	
-	private Date getLogEndTimestamp(Node node) throws ParserException {
-		Date logEndTimestamp = null;
-		
-		Node logEndTimestampNode = node.selectSingleNode("endTimestamp");
-		
-		if (logEndTimestampNode != null) {
-			logEndTimestamp = getConversationEndTimestamp(logEndTimestampNode.getText());
-		}
-		
-		return logEndTimestamp;
-	}
-	
-	protected abstract Date getLogEndTimestamp(String logEndTimestampString) throws ParserException;
-	
-	protected abstract Log getLog(Log log);
 	
 	@SuppressWarnings("unchecked")
 	private Conversation getConversation(Node node) throws ParserException {
 		Conversation conversation = new Conversation();
 
+		conversation.setClient(getClient());
+		conversation.setProtocol(getProtocol());
 		conversation.setStartTimestamp(getConversationStartTimestamp(node));
 		conversation.setEndTimestamp(getConversationEndTimestamp(node));
 		

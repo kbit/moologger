@@ -2,8 +2,9 @@ package org.moologger.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,8 +17,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "logs_t")
@@ -29,24 +28,17 @@ public class Log {
 	@SequenceGenerator(name = "log_id_s", sequenceName = "log_id_s", allocationSize = 1)
 	private Long logId;
 	
-	@Column(name = "client")
-	private String client;
-	
-	@Column(name = "protocol")
-	private String protocol;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "start_timestamp")
-	private Date startTimestamp;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_timestamp")
-	private Date endTimestamp;
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinTable(name = "logs_principals",
+			   joinColumns = 		@JoinColumn(name = "log_id"),
+			   inverseJoinColumns = @JoinColumn(name = "principal_id")
+	)
+	private Set<Principal> principals = new HashSet<Principal>();
 	
 	@OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "logs_conversations_t",
-    		   joinColumns = 		@JoinColumn(name="log_id"),
-    		   inverseJoinColumns = @JoinColumn(name="conversation_id")
+    		   joinColumns = 		@JoinColumn(name = "log_id"),
+    		   inverseJoinColumns = @JoinColumn(name = "conversation_id")
     )
 	private List<Conversation> conversations = new ArrayList<Conversation>();
 
@@ -58,36 +50,16 @@ public class Log {
 		this.logId = logId;
 	}
 	
-	public String getClient() {
-		return client;
+	public Set<Principal> getPrincipals() {
+		return Collections.unmodifiableSet(principals);
 	}
-
-	public void setClient(String client) {
-		this.client = client;
+	
+	public void addPrincipal(Principal principal) {
+		principals.add(principal);
 	}
-
-	public String getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
-
-	public Date getStartTimestamp() {
-		return startTimestamp;
-	}
-
-	public void setStartTimestamp(Date startTimestamp) {
-		this.startTimestamp = startTimestamp;
-	}
-
-	public Date getEndTimestamp() {
-		return endTimestamp;
-	}
-
-	public void setEndTimestamp(Date endTimestamp) {
-		this.endTimestamp = endTimestamp;
+	
+	public void deletePrincipal(Principal principal) {
+		principals.remove(principal);
 	}
 
 	public List<Conversation> getConversations() {

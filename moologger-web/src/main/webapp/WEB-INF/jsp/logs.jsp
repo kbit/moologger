@@ -13,21 +13,16 @@
     		<div id="body">
     			<div id="content-wrap">
 			    	<div id="content">
-						<table>
-							<core:forEach items="${logs}" var="log">
-								<tr align="left">
-									<th colspan="2">Log - <format:formatDate value="${log.startTimestamp}" type="both"/>-<format:formatDate value="${log.endTimestamp}" type="both"/></th>
+						<table cellspacing="0" class="conversation">
+							<core:forEach items="${conversations}" var="conversation">
+								<tr>
+									<th colspan="2">Conversation - <format:formatDate value="${conversation.startTimestamp}" type="both"/>-<format:formatDate value="${conversation.endTimestamp}" type="both"/></th>
 								</tr>
-								<core:forEach items="${log.conversations}" var="conversation">
-									<tr align="left">
-										<th colspan="2">Conversation - <format:formatDate value="${conversation.startTimestamp}" type="both"/>-<format:formatDate value="${conversation.endTimestamp}" type="both"/></th>
+								<core:forEach items="${conversation.messages}" var="message">
+									<tr>
+										<td class="conversation-alias">${message.alias.identifier} (<format:formatDate value="${message.timestamp}" type="time"/>)</td>
+										<td class="conversation-message">${message.text}</td>
 									</tr>
-									<core:forEach items="${conversation.messages}" var="message">
-										<tr>
-											<td>${message.alias.identifier} (<format:formatDate value="${message.timestamp}" type="time"/>)</td>
-											<td>${message.text}</td>
-										</tr>
-									</core:forEach>
 								</core:forEach>
 							</core:forEach>
 						</table>

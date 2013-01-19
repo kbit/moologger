@@ -96,3 +96,27 @@ ul li {
 	
 	background: #000000;
 }
+
+.conversation {
+	border: 1px solid #000000;
+	width: 100%;
+	word-wrap: break-word;
+}
+
+.conversation th, td {
+	margin: 0;
+	padding: 0.5em 1em;
+	border-bottom: 1px solid #b5b5b5;
+}
+
+.conversation th {
+	background: #E0FFFF;
+}
+
+.conversation-alias {
+	width: 20%;
+}
+
+.conversation-message {
+	width: 80%;
+}

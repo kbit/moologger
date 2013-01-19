@@ -2,7 +2,7 @@ package org.moologger.core.parser;
 
 import java.io.InputStream;
 
-import org.moologger.core.Log;
+import org.moologger.core.Conversation;
 
 public interface Parser {
 	
@@ -10,6 +10,6 @@ public interface Parser {
 	
 	String getProtocol();
 
-	Log parse(InputStream inputStream) throws ParserException;
+	Conversation parse(InputStream inputStream) throws ParserException;
 
 }

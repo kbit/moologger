@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.moologger.core.Log;
+import org.moologger.core.Conversation;
 import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
@@ -32,7 +32,7 @@ public class LogController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
-		model.addAttribute("logs", getMoologgerService().getAllLogs());
+		model.addAttribute("conversations", getMoologgerService().getAllConversations());
 		model.addAttribute("clients", getParserRegistry().getClients());
 		model.addAttribute("protocols", getParserRegistry().getProtocols());
 		model.addAttribute("command", new LogModel());
@@ -50,9 +50,9 @@ public class LogController {
 		
 		try {
 			for (MultipartFile file : files) {
-				Log newLog = parser.parse(file.getInputStream());
+				Conversation newConversation = parser.parse(file.getInputStream());
 				
-				getMoologgerService().saveLog(newLog);
+				getMoologgerService().saveConversation(newConversation);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

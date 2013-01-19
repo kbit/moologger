@@ -31,8 +31,8 @@ public class Principal {
 	
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "principals_aliases_t",
-    		   joinColumns = 		@JoinColumn(name="principal_id"),
-    		   inverseJoinColumns = @JoinColumn(name="alias_id")
+    		   joinColumns = 		@JoinColumn(name = "principal_id"),
+    		   inverseJoinColumns = @JoinColumn(name = "alias_id")
     )
 	private List<Alias> aliases = new ArrayList<Alias>();
 	

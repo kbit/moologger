@@ -29,6 +29,12 @@ public class Conversation {
 	@SequenceGenerator(name = "conversation_id_s", sequenceName = "conversation_id_s", allocationSize = 1)
 	private Long conversationId;
 	
+	@Column(name = "client")
+	private String client;
+	
+	@Column(name = "protocol")
+	private String protocol;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_timestamp")
 	private Date startTimestamp;
@@ -39,8 +45,8 @@ public class Conversation {
 	
 	@OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "conversations_messages_t",
-    		   joinColumns = 		@JoinColumn(name="conversation_id"),
-    		   inverseJoinColumns = @JoinColumn(name="message_id")
+    		   joinColumns = 		@JoinColumn(name = "conversation_id"),
+    		   inverseJoinColumns = @JoinColumn(name = "message_id")
     )
 	private List<Message> messages = new ArrayList<Message>();
 	
@@ -50,6 +56,22 @@ public class Conversation {
 
 	public void setConversationId(Long conversationId) {
 		this.conversationId = conversationId;
+	}
+	
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
 	}
 	
 	public Date getStartTimestamp() {

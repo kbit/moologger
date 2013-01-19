@@ -24,5 +24,26 @@
             </column>
         </createTable>
 	</changeSet>
+	
+	<changeSet id="3" author="kbit">
+		<addColumn tableName="conversations_t">
+			<column name="client" type="varchar(25)" />
+            <column name="protocol" type="varchar(25)" />
+		</addColumn>
+		
+		<dropColumn tableName="logs_t" columnName="client" />
+		<dropColumn tableName="logs_t" columnName="protocol" />
+		<dropColumn tableName="logs_t" columnName="start_timestamp" />
+		<dropColumn tableName="logs_t" columnName="end_timestamp" />
+		
+		<createTable tableName="logs_principals_t">
+            <column name="log_id" type="bigint">
+                <constraints foreignKeyName="fk_log_id" references="logs_t(log_id)" nullable="false" />
+            </column>
+            <column name="principal_id" type="bigint">
+                <constraints foreignKeyName="fk_principal_id" references="principals_t(principal_id)" nullable="false" />
+            </column>
+        </createTable>
+	</changeSet>
  
 </databaseChangeLog>

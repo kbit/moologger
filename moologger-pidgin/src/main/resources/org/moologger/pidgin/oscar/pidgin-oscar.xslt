@@ -2,14 +2,12 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<xsl:template match="/">
-		<log>
-	    	<conversation>
-	    		<startTimestamp>
-	    			<xsl:apply-templates select="//H3" />
-	    		</startTimestamp>
-				<xsl:apply-templates select="//FONT[@color]" />
-	    	</conversation>
-		</log>
+		<conversation>
+    		<startTimestamp>
+    			<xsl:apply-templates select="//H3" />
+    		</startTimestamp>
+			<xsl:apply-templates select="//FONT[@color]" />
+    	</conversation>
 	</xsl:template>
 	
 	<xsl:template match="H3">

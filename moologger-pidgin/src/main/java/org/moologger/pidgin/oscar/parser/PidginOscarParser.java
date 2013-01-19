@@ -14,7 +14,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.moologger.core.Client;
 import org.moologger.core.Conversation;
-import org.moologger.core.Log;
 import org.moologger.core.Message;
 import org.moologger.core.Protocol;
 import org.moologger.core.parser.ParserException;
@@ -38,25 +37,6 @@ public class PidginOscarParser extends XMLParser {
 	protected StreamSource getXSLT() {
 		InputStream xslt = getClass().getClassLoader().getResourceAsStream("org/moologger/pidgin/oscar/pidgin-oscar.xslt");
 		return new StreamSource(xslt);
-	}
-	
-	protected Date getLogStartTimestamp(String logStartTimestampString) throws ParserException {
-		return null;
-	}
-	
-	protected Date getLogEndTimestamp(String logEndTimestampString) throws ParserException {
-		return null;
-	}
-	
-	protected Log getLog(Log log) {
-		List<Conversation> conversations = log.getConversations();
-		Conversation firstConversation = conversations.get(0);
-		Conversation lastConversation = conversations.get(conversations.size() - 1);
-		
-		log.setStartTimestamp(firstConversation.getStartTimestamp());
-		log.setEndTimestamp(lastConversation.getEndTimestamp());
-		
-		return log;
 	}
 	
 	protected Date getConversationStartTimestamp(String conversationStartTimestampString) throws ParserException {

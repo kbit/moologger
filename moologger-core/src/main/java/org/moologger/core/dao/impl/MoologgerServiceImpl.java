@@ -50,6 +50,16 @@ public class MoologgerServiceImpl implements MoologgerService {
 		getLogDAO().delete(log);
 	}
 	
+	public Log addPrincipal(Log log, Principal principal) {
+		log.addPrincipal(principal);
+		return getLogDAO().set(log);
+	}
+	
+	public Log deletePrincipal(Log log, Principal principal) {
+		log.deletePrincipal(principal);
+		return getLogDAO().set(log);
+	}
+	
 	public Log addConversation(Log log, Conversation conversation) {
 		log.addConversation(conversation);
 		return getLogDAO().set(log);
