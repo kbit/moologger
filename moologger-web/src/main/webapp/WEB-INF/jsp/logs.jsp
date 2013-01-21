@@ -13,19 +13,23 @@
     		<div id="body">
     			<div id="content-wrap">
 			    	<div id="content">
-						<table cellspacing="0" class="conversation">
+			    		<div class="conversation">
 							<core:forEach items="${conversations}" var="conversation">
-								<tr>
-									<th colspan="2">Conversation - <format:formatDate value="${conversation.startTimestamp}" type="both"/>-<format:formatDate value="${conversation.endTimestamp}" type="both"/></th>
-								</tr>
+								<div class="conversation-header">
+									Conversation - <format:formatDate value="${conversation.startTimestamp}" type="both"/>-<format:formatDate value="${conversation.endTimestamp}" type="both"/>
+								</div>
 								<core:forEach items="${conversation.messages}" var="message">
-									<tr>
-										<td class="conversation-alias">${message.alias.identifier} (<format:formatDate value="${message.timestamp}" type="time"/>)</td>
-										<td class="conversation-message">${message.text}</td>
-									</tr>
+									<div class="message">
+										<div class="message-alias">
+											${message.alias.identifier} (<format:formatDate value="${message.timestamp}" type="time"/>)
+										</div>
+										<div class="message-text">
+											${message.text}
+										</div>
+									</div>
 								</core:forEach>
 							</core:forEach>
-						</table>
+						</div>
 				    	
 				    	<form:form action="logs/new" enctype="multipart/form-data" method="POST">  
 							<ol>
