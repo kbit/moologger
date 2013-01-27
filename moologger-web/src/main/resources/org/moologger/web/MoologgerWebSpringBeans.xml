@@ -9,8 +9,8 @@
     <context:component-scan base-package="org.moologger.web" />
     
     <mvc:annotation-driven />
-    
-    <mvc:default-servlet-handler />
+
+	<mvc:default-servlet-handler />
     
     <mvc:view-controller path="/" view-name="index" />
     

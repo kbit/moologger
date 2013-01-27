@@ -23,9 +23,15 @@ public class PrincipalController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
 		model.addAttribute("principals", getMoologgerService().getAllPrincipals());
-		model.addAttribute("command", new PrincipalModel());
 		
 		return "principals";
+	}
+	
+	@RequestMapping(value="/new", method = RequestMethod.GET)
+	public String getNewPrincipal(Model model) {
+		model.addAttribute("command", new PrincipalModel());
+		
+		return "principalsNew";
 	}
 	
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
