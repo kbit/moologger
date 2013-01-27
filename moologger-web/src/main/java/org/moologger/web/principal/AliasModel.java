@@ -1,4 +1,4 @@
-package org.moologger.web.alias;
+package org.moologger.web.principal;
 
 import java.util.ArrayList;
 import java.util.List;
