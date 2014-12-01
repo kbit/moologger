@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.moologger.core.Conversation;
-import org.moologger.core.dao.MoologgerService;
+import org.moologger.core.parser.registry.ParserRegistry;
+import org.moologger.core.repository.ConversationRepository;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
-import org.moologger.core.parser.registry.impl.ParserRegistryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,16 +25,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class LogController {
 	
 	@Resource
-	private ParserRegistryImpl parserRegistry;
+	ParserRegistry parserRegistry;
 	
 	@Resource
-	private MoologgerService moologgerService;
+	ConversationRepository conversationRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
-		model.addAttribute("conversations", getMoologgerService().getAllConversations());
-		model.addAttribute("clients", getParserRegistry().getClients());
-		model.addAttribute("protocols", getParserRegistry().getProtocols());
+		model.addAttribute("conversations", conversationRepository.findAll());
+		model.addAttribute("clients", parserRegistry.getClients());
+		model.addAttribute("protocols", parserRegistry.getProtocols());
 		model.addAttribute("command", new LogModel());
 		
 		return "logs";
@@ -46,13 +46,13 @@ public class LogController {
 		String protocol = logModel.getProtocol();
 		List<MultipartFile> files = logModel.getFiles();
 		
-		Parser parser = getParserRegistry().getParser(client, protocol);
+		Parser parser = parserRegistry.getParser(client, protocol);
 		
 		try {
 			for (MultipartFile file : files) {
 				Conversation newConversation = parser.parse(file.getInputStream());
 				
-				getMoologgerService().saveConversation(newConversation);
+				conversationRepository.save(newConversation);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -61,22 +61,6 @@ public class LogController {
 		}
 		
 		return "redirect:/logs";
-	}
-	
-	public ParserRegistryImpl getParserRegistry() {
-		return parserRegistry;
-	}
-
-	public void setParserRegistry(ParserRegistryImpl parserRegistry) {
-		this.parserRegistry = parserRegistry;
-	}
-
-	public MoologgerService getMoologgerService() {
-		return moologgerService;
-	}
-	
-	public void setMoologgerService(MoologgerService moologgerService) {
-		this.moologgerService = moologgerService;
 	}
 	  
 }

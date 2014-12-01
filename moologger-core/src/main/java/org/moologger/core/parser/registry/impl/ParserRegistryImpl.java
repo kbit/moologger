@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParserRegistryImpl implements ParserRegistry {
 	
-	private Set<String> clients = new HashSet<String>();
+	private Set<String> clients = new HashSet<>();
 	
-	private Set<String> protocols = new HashSet<String>();
+	private Set<String> protocols = new HashSet<>();
 	
-	private Map<ParserKey, Parser> parsers = new HashMap<ParserKey, Parser>();
+	private Map<ParserKey, Parser> parsers = new HashMap<>();
 	
 	@Autowired
 	public ParserRegistryImpl(List<Parser> parsers) {
@@ -32,6 +32,7 @@ public class ParserRegistryImpl implements ParserRegistry {
 			
 			this.clients.add(client);
 			this.protocols.add(protocol);
+
 			if (!this.parsers.containsKey(key)) {
 				this.parsers.put(key, parser);
 			}

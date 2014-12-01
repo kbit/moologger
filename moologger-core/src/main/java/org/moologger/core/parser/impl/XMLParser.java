@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
@@ -18,23 +17,17 @@ import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
-import org.moologger.core.Alias;
 import org.moologger.core.Conversation;
 import org.moologger.core.Message;
-import org.moologger.core.dao.MoologgerService;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public abstract class XMLParser implements Parser {
 	
-	@Autowired
-	private MoologgerService moologgerService;
-	
 	public Conversation parse(InputStream inputStream) throws ParserException {
-		Conversation conversation = new Conversation();
+		Conversation conversation;
 
 		try {
 			DOMParser parser = new DOMParser();
@@ -49,14 +42,8 @@ public abstract class XMLParser implements Parser {
 	        transformer.transform(source, result);
 
 	        conversation = getConversation(result.getDocument());
-		} catch (IOException ioe) {
-			throw new ParserException(ioe);
-		} catch (SAXException saxe) {
-			throw new ParserException(saxe);
-		} catch (TransformerConfigurationException tce) {
-			throw new ParserException(tce);
-		} catch (TransformerException te) {
-			throw new ParserException(te);
+		} catch (IOException | SAXException | TransformerException e) {
+			throw new ParserException(e);
 		}
 		
         return conversation;
@@ -69,7 +56,7 @@ public abstract class XMLParser implements Parser {
 		
 		return getConversation(conversation);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Conversation getConversation(Node node) throws ParserException {
 		Conversation conversation = new Conversation();
@@ -122,7 +109,7 @@ public abstract class XMLParser implements Parser {
 		Message message = new Message();
 		
 		message.setTimestamp(getTimestamp(node, startTimestamp, endTimestamp));
-		message.setAlias(getAlias(node));
+		message.setIdentifier(getIdentifier(node));
 		message.setText(getText(node));
 		
 		return message;
@@ -142,29 +129,17 @@ public abstract class XMLParser implements Parser {
 	
 	protected abstract Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException;
 	
-	private Alias getAlias(Node node) throws ParserException {
-		Alias alias = new Alias();
-		
+	private String getIdentifier(Node node) throws ParserException {
+		String identifier = StringUtils.EMPTY;
+
 		Node aliasNode = node.selectSingleNode("alias");
 		
 		if (aliasNode != null) {
-			String identifier = getIdentifier(aliasNode.getText());
-			String client = getClient();
-			String protocol = getProtocol();
-			
-			if (getMoologgerService().aliasExists(identifier, client, protocol)) {
-				alias = getMoologgerService().getAlias(identifier, client, protocol);
-			} else {
-				alias.setIdentifier(identifier);
-				alias.setClient(client);
-				alias.setProtocol(protocol);
-			}
+			identifier = aliasNode.getText();
 		}
 		
-		return alias;
+		return identifier;
 	}
-	
-	protected abstract String getIdentifier(String identifierString) throws ParserException;
 	
 	@SuppressWarnings("unchecked")
 	private String getText(Node node) throws ParserException {
@@ -180,13 +155,5 @@ public abstract class XMLParser implements Parser {
 	}
 	
 	protected abstract String getText(List<Node> nodes) throws ParserException;
-
-	public MoologgerService getMoologgerService() {
-		return moologgerService;
-	}
-
-	public void setMoologgerService(MoologgerService moologgerService) {
-		this.moologgerService = moologgerService;
-	}
 
 }

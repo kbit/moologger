@@ -12,12 +12,7 @@
 	
 	<artifactId>moologger-core</artifactId>
 	<packaging>jar</packaging>
-	<name>MooLogger Core Module</name>
-	
-	<properties>
-		<hibernate.version>3.5.6-Final</hibernate.version>
-		<liquibase.version>2.0.3</liquibase.version>
-	</properties>
+	<name>Moologger Core Module</name>
 	
 	<dependencies>
 		<dependency>
@@ -25,11 +20,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.3</version>
         </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
         <dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
@@ -46,98 +41,20 @@
             <version>1.9.16</version>
         </dependency>
         <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-annotations</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.framework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.framework.version}</version>
         </dependency>
-		<dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.0-801.jdbc4</version>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${spring.data.mongo.version}</version>
         </dependency>
 	</dependencies>
-	
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
-                <configuration>
-                	<driver>${database.driver}</driver>
-					<url>${database.url}</url>
-					<username>${database.username}</username>
-					<password>${database.password}</password>
-					<dropFirst>true</dropFirst>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <changeLogFile>db.changelog.xml</changeLogFile>
-                        </configuration>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-		</plugins>
-		
-		<pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.liquibase</groupId>
-                                        <artifactId>liquibase-maven-plugin</artifactId>
-                                        <versionRange>[${liquibase.version}]</versionRange>
-                                        <goals>
-                                            <goal>update</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-	</build>
 	
 </project>

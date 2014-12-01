@@ -31,7 +31,7 @@
 								</tr>
 								<core:forEach items="${principals}" var="principal">
 									<tr>
-										<td><a class="form-link" href="principals/${principal.principalId}/aliases" title="Edit Existing Aliases">Edit</a></td>
+										<td><a class="form-link" href="principals/${principal.id}/aliases" title="Edit Existing Aliases">Edit</a></td>
 										<td>${principal.identifier}</td>
 										<core:forEach items="${principal.aliases}" var="alias">
 											<td>${alias.identifier}</td>

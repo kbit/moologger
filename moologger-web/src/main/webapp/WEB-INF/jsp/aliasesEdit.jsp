@@ -17,7 +17,7 @@
 				<div id="content-wrap">
 					<div id="content">
 						<div id="aliases-edit" class="form-content">
-					    	<form:form action="/principals/${principalId}/aliases/edit" enctype="multipart/form-data" method="POST">  
+					    	<form:form action="/principals/${id}/aliases/edit" enctype="multipart/form-data" method="POST">
 								<ol>
 									<li>
 										<form:label path="selectedAliases">Aliases</form:label>

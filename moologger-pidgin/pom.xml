@@ -12,7 +12,7 @@
 
     <artifactId>moologger-pidgin</artifactId>
     <packaging>jar</packaging>
-    <name>MooLogger Pidgin Module</name>
+    <name>Moologger Pidgin Module</name>
     
     <dependencies>
         <dependency>

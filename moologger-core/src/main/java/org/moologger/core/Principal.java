@@ -1,47 +1,28 @@
 package org.moologger.core;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "principals_t")
+@Document
 public class Principal {
 	
 	@Id
-	@Column(name = "principal_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "principal_id_s")
-	@SequenceGenerator(name = "principal_id_s", sequenceName = "principal_id_s", allocationSize = 1)
-	private Long principalId;
-	
-	@Column(name = "identifier")
+	private String id;
+
 	private String identifier;
-	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "principals_aliases_t",
-    		   joinColumns = 		@JoinColumn(name = "principal_id"),
-    		   inverseJoinColumns = @JoinColumn(name = "alias_id")
-    )
+
 	private List<Alias> aliases = new ArrayList<Alias>();
 	
-	public Long getPrincipalId() {
-		return principalId;
+	public String getId() {
+		return id;
 	}
 
-	public void setPrincipalId(Long principalId) {
-		this.principalId = principalId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getIdentifier() {
@@ -58,6 +39,10 @@ public class Principal {
 	
 	public void setAliases(List<Alias> aliases) {
 		this.aliases = aliases;
+	}
+
+	public void addAlias(Alias alias) {
+		aliases.add(alias);
 	}
 	
 	public void deleteAlias(Alias alias) {

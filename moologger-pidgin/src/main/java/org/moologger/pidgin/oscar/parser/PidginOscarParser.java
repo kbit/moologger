@@ -40,7 +40,7 @@ public class PidginOscarParser extends XMLParser {
 	}
 	
 	protected Date getConversationStartTimestamp(String conversationStartTimestampString) throws ParserException {
-		Date conversationStartTimestamp = null;
+		Date conversationStartTimestamp;
 		
 		try {
 			conversationStartTimestamp = DateUtils.parseDate(conversationStartTimestampString, new String[] {FULL_DATE_FORMAT});
@@ -67,7 +67,7 @@ public class PidginOscarParser extends XMLParser {
 	}
 	
 	protected Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException {
-		Date timestamp = null;
+		Date timestamp;
 
 		try {
 			LocalDate date = new LocalDate(startTimestamp);
@@ -79,10 +79,6 @@ public class PidginOscarParser extends XMLParser {
 		}
 		
 		return timestamp;
-	}
-	
-	protected String getIdentifier(String identifierString) {
-		return identifierString;
 	}
 	
 	protected String getText(List<Node> nodes) {

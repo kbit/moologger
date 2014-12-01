@@ -7,10 +7,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.moologger.core.Alias;
 import org.moologger.core.Principal;
-import org.moologger.core.dao.MoologgerService;
+import org.moologger.core.repository.PrincipalRepository;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,11 +30,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class PrincipalController {
 	
 	@Resource
-	private MoologgerService moologgerService;
+	PrincipalRepository principalRepository;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
-		model.addAttribute("principals", getMoologgerService().getAllPrincipals());
+		model.addAttribute("principals", principalRepository.findAll());
 		
 		return "principals";
 	}
@@ -48,12 +49,12 @@ public class PrincipalController {
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public String addNewPrincipal(@ModelAttribute PrincipalModel identityModel, BindingResult result) {
 		String identifier = identityModel.getIdentifier();
-		
-		if (!getMoologgerService().principalExists(identifier)) {
+
+		if (!principalRepository.existsByIdentifier(identifier)) {
 			Principal principal = new Principal();
 			principal.setIdentifier(identifier);
-			
-			getMoologgerService().addPrincipal(principal);
+
+			principalRepository.save(principal);
 		}
 		
 		return "redirect:/principals";
@@ -64,7 +65,7 @@ public class PrincipalController {
 		model.addAttribute("aliases", getAliases());
 		
 		AliasModel aliasModel = new AliasModel();
-		aliasModel.setSelectedAliases(getMoologgerService().getPrincipal(principalId).getAliases());
+		aliasModel.setSelectedAliases(principalRepository.findOne(principalId).getAliases());
 		model.addAttribute("command", aliasModel);
 		
 		return "aliasesEdit";
@@ -72,11 +73,15 @@ public class PrincipalController {
 	
 	@RequestMapping(value = "/{principalId}/aliases/edit", method = RequestMethod.POST)
 	public String editPrincipalAlias(@PathVariable long principalId, @ModelAttribute AliasModel aliasModel, BindingResult result) {
-		Principal principal = getMoologgerService().getPrincipal(principalId);
+		Principal principal = principalRepository.findOne(principalId);
 		List<Alias> selectedAliases = aliasModel.getSelectedAliases();
+
+		for (Alias selectedAlias : selectedAliases) {
+			principal.addAlias(selectedAlias);
+		}
 		
-		getMoologgerService().saveAliases(principal, selectedAliases);
-		
+		principalRepository.save(principal);
+
 		return "redirect:/principals";
 	}
 	
@@ -93,35 +98,37 @@ public class PrincipalController {
                     id = (Long) element;
                 }
 
-                return getMoologgerService().getAlias(id);
+				for (Principal principal : principalRepository.findAll()) {
+					for (Alias alias : principal.getAliases()) {
+						if (ObjectUtils.equals(alias.getIdentifier(), id)) {
+							return alias;
+						}
+					}
+				}
+
+                return null;
             }
         });
     }
 	
 	private Map<String, List<Alias>> getAliases() {
 		Map<String, List<Alias>> aliases = new HashMap<String, List<Alias>>();
-		
-		for (Alias alias : getMoologgerService().getAllAliases()) {
-			String aliasKey = "Client: " + alias.getClient() + ", " + "Protocol: " + alias.getProtocol();
-			List<Alias> aliasValue = aliases.get(aliasKey);
-			
-			if (aliasValue == null) {
-				aliasValue = new ArrayList<Alias>();
-				aliases.put(aliasKey, aliasValue);
+
+		for (Principal principal : principalRepository.findAll()) {
+			for (Alias alias : principal.getAliases()) {
+				String aliasKey = "Client: " + alias.getClient() + ", " + "Protocol: " + alias.getProtocol();
+				List<Alias> aliasValue = aliases.get(aliasKey);
+
+				if (aliasValue == null) {
+					aliasValue = new ArrayList<Alias>();
+					aliases.put(aliasKey, aliasValue);
+				}
+
+				aliasValue.add(alias);
 			}
-			
-			aliasValue.add(alias);
 		}
 		
 		return aliases;
-	}
-	
-	public MoologgerService getMoologgerService() {
-		return moologgerService;
-	}
-	
-	public void setMoologgerService(MoologgerService moologgerService) {
-		this.moologgerService = moologgerService;
 	}
 
 }
