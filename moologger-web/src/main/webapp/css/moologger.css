@@ -1,5 +1,11 @@
+html {
+	height: 100%;
+}
+
 body {
 	font-family: "Helvetica", sans-serif;
+	height: 100%;
+	min-height: 100%;
 }
 
 h1 {
@@ -22,95 +28,62 @@ ul li {
 	font-size: 0.9em;
 }
 
-#header {
-	margin: 0;
-	padding: 2em;
-	
-	background: #90EE90;
-	border-top-left-radius: 4em;
+nav {
+	background-color: rgba(12, 79, 12, 1);
+	height: 2.4em;
 }
 
-#header li {
-	font-size: 1.6em;
+nav ul {
+	padding: 0.6em 0 0.6em 0;
 }
 
-#body-wrap {
-	clear: both;
-	
-	float: left;
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	
-	background: #90EE90;
+nav li {
+	display: inline;
 }
 
-#body {
-	float: left;
-	left: 12em;
-	position: relative;
-	width: 200%;
-	
-	background: #ffffff;
-	border-top-left-radius: 1em;
-}
-
-#content-wrap {
-	float: right;
-	position: relative;
-	right: 12em;
-	width: 50%;
-}
-
-#content {
-	margin: 0 0 0 12em;
-	overflow: hidden;
-	padding: 1em;
-	position: relative;
-	right: 100%;
-}
-
-#navigation {
-	float: left;
-	padding: 1em;
-	position: relative;
-	right: 12em;
-	width: 10em;
-	
-	list-style: none;
-}
-
-#navigation li {
-	font-size: 1em;
-}
-
-#navigation li a {
+nav a {
+	color: #ffffff;
+	font-size: 1.2em;
+	padding: 0.6em 1em 0.6em 1em;
+	text-align: left;
 	text-decoration: none;
 }
 
-#footer {
+nav a:hover {
+	color: #FFFFFF;
+	background-color: rgba(26, 98, 26, 1);
+}
+
+main {
+	background: #FFFFFF;
+	padding: 1em 1em 3em 1em;
+}
+
+footer {
 	clear: both;
-	
-	margin: 0;
-	padding: 2em;
-	
-	background: #000000;
+	background: #F5F0EE;
+	bottom: 0;
+	height: 3em;
+	position: absolute;
+	width: 100%;
+}
+
+footer p {
+	padding: 1em;
+	text-align: right;
 }
 
 .conversation-header {
 	clear: both;
-
-	margin: 0.5em;
-	padding: 0.5em;
-	
 	background: #E0FFFF;
 	border-radius: 1em;
+	margin: 0.5em;
+	padding: 0.5em;
 	text-align: center;
 }
 
 .message {
 	clear: both;
-	
 	padding: 1em;
 }
 

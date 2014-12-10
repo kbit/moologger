@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class PrincipalController {
 	
 	@Resource
-	PrincipalRepository principalRepository;
+	private PrincipalRepository principalRepository;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(Model model) {
@@ -61,7 +61,7 @@ public class PrincipalController {
 	}
 	
 	@RequestMapping(value = "/{principalId}/aliases", method = RequestMethod.GET)
-	public String getEditPrincipalAlias(@PathVariable long principalId, Model model) {
+	public String getEditPrincipalAlias(@PathVariable String principalId, Model model) {
 		model.addAttribute("aliases", getAliases());
 		
 		AliasModel aliasModel = new AliasModel();
@@ -72,7 +72,7 @@ public class PrincipalController {
 	}
 	
 	@RequestMapping(value = "/{principalId}/aliases/edit", method = RequestMethod.POST)
-	public String editPrincipalAlias(@PathVariable long principalId, @ModelAttribute AliasModel aliasModel, BindingResult result) {
+	public String editPrincipalAlias(@PathVariable String principalId, @ModelAttribute AliasModel aliasModel, BindingResult result) {
 		Principal principal = principalRepository.findOne(principalId);
 		List<Alias> selectedAliases = aliasModel.getSelectedAliases();
 

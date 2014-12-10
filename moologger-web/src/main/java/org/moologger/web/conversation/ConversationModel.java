@@ -1,11 +1,11 @@
-package org.moologger.web.log;
+package org.moologger.web.conversation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class LogModel {
+public class ConversationModel {
 	
 	private String client;
 	private String protocol;

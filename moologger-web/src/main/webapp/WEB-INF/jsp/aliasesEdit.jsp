@@ -12,35 +12,27 @@
     <body>
     	<moologger:header />
     	
-    	<div id="body-wrap">
-			<div id="body">
-				<div id="content-wrap">
-					<div id="content">
-						<div id="aliases-edit" class="form-content">
-					    	<form:form action="/principals/${id}/aliases/edit" enctype="multipart/form-data" method="POST">
-								<ol>
-									<li>
-										<form:label path="selectedAliases">Aliases</form:label>
-										<form:select path="selectedAliases" multiple="true">
-											<core:forEach items="${aliases}" var="alias">
-												<optgroup label="${alias.key}">
-													<form:options items="${alias.value}" itemLabel="identifier" itemValue="aliasId" />
-												</optgroup>
-											</core:forEach>
-										</form:select>
-									</li>
-								    <li>
-						    			<input name="Submit" type="submit" />
-						    		</li>
-						    	</ol>
-					    	</form:form>
-					    </div>
-				    </div>
-				</div>
-	    	
-	    		<moologger:navigation />
-	    	</div>
-	    </div>
+    	<main>
+			<div id="aliases-edit" class="form-content">
+				<form:form action="/principals/${id}/aliases/edit" enctype="multipart/form-data" method="POST">
+					<ol>
+						<li>
+							<form:label path="selectedAliases">Aliases</form:label>
+							<form:select path="selectedAliases" multiple="true">
+								<core:forEach items="${aliases}" var="alias">
+									<optgroup label="${alias.key}">
+										<form:options items="${alias.value}" itemLabel="identifier" itemValue="aliasId" />
+									</optgroup>
+								</core:forEach>
+							</form:select>
+						</li>
+						<li>
+							<input name="Submit" type="submit" />
+						</li>
+					</ol>
+				</form:form>
+			</div>
+		</main>
 	    
 	    <moologger:footer />
     </body>

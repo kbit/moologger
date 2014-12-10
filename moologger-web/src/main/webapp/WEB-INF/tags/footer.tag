@@ -1,2 +1,3 @@
-<div id="footer">
-</div>
+<footer>
+    <p>Powered by Moologger</p>
+</footer>
