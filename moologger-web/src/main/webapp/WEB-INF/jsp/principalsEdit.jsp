@@ -15,7 +15,7 @@
 		</header>
     	
     	<main>
-			<moologger:princpalsEdit />
+			<moologger:principalsEdit />
 		</main>
 
 		<footer>
