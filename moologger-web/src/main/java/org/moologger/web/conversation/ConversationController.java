@@ -12,15 +12,13 @@ import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@SessionAttributes
 @RequestMapping("/conversations")
 public class ConversationController {
 	
@@ -31,17 +29,19 @@ public class ConversationController {
 	private ConversationRepository conversationRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String get(Model model) {
-		model.addAttribute("conversations", conversationRepository.findAll());
-		model.addAttribute("clients", parserRegistry.getClients());
-		model.addAttribute("protocols", parserRegistry.getProtocols());
-		model.addAttribute("command", new ConversationModel());
+	public String get(Model model, @ModelAttribute("conversations") List<Conversation> conversations) {
+		model.addAttribute(conversations);
 		
 		return "conversations";
 	}
+
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public ModelAndView getNew() {
+		return new ModelAndView("conversationsNew", "command", new ConversationModel());
+	}
 	
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public String upload(@ModelAttribute ConversationModel logModel, BindingResult result) {
+	public String addNewConversation(@ModelAttribute ConversationModel logModel) {
 		String client = logModel.getClient();
 		String protocol = logModel.getProtocol();
 		List<MultipartFile> files = logModel.getFiles();
@@ -54,13 +54,16 @@ public class ConversationController {
 				
 				conversationRepository.save(newConversation);
 			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} catch (ParserException pe) {
-			pe.printStackTrace();
+		} catch (IOException | ParserException e) {
+			e.printStackTrace();
 		}
 		
 		return "redirect:/conversations";
+	}
+
+	@ModelAttribute("conversations")
+	public List<Conversation> getConversations() {
+		return conversationRepository.findAll();
 	}
 	  
 }

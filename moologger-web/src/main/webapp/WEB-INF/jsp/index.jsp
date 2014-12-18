@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
 
 <html>
 	<head>
@@ -10,14 +10,18 @@
     	<script type="text/javascript" src="<core:url value="/js/moologger.js" />"></script>
     </head>
 	<body>
-		<moologger:header />
+		<header>
+			<moologger:nav />
+		</header>
 
 		<main>
 			<h1>Recent Activity</h1>
 
 			<moologger:conversations />
 		</main>
-		
-		<moologger:footer />
+
+		<footer>
+			<moologger:info />
+		</footer>
 	</body>
 </html>

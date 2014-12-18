@@ -1,8 +1,8 @@
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
  
 <html>
     <head>
-        <title>Logs</title>
+        <title>Conversations</title>
         
         <link rel="stylesheet" type="text/css" href="<core:url value="/css/main.css" />" />
 		<script type="text/javascript" src="<core:url value="/js/jquery-1.9.0-min.js" />"></script>
@@ -10,12 +10,17 @@
     	<script type="text/javascript" src="<core:url value="/js/moologger.js" />"></script>
     </head>
     <body>
-    	<moologger:header />
+		<header>
+			<moologger:nav />
+		</header>
     	
     	<main>
 			<moologger:conversations />
+			<a href="/conversations/new">Add New Conversation</a>
 		</main>
-	    
-	    <moologger:footer />
+
+		<footer>
+			<moologger:info />
+		</footer>
     </body>
 </html>

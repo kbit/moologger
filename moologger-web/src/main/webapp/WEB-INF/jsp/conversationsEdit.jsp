@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Conversations :: New</title>
+        <title>Conversations :: Edit</title>
 
         <link rel="stylesheet" type="text/css" href="<core:url value="/css/main.css" />" />
         <script type="text/javascript" src="<core:url value="/js/jquery-1.9.0-min.js" />"></script>
@@ -15,7 +15,7 @@
         </header>
 
         <main>
-            <moologger:conversationsNew />
+            <moologger:conversationsEdit />
         </main>
 
         <footer>

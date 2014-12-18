@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
 
 <html>
     <head>
@@ -10,38 +10,17 @@
     	<script type="text/javascript" src="<core:url value="/js/moologger.js" />"></script>
     </head>
     <body>
-    	<moologger:header />
+		<header>
+			<moologger:nav />
+		</header>
     	
 		<main>
-			<div id="principals">
-				<table>
-					<tr>
-						<th>Action</th>
-						<th>Identifier</th>
-						<th colspan="3">Aliases</th>
-					</tr>
-					<tr>
-						<th colspan="2" />
-						<th>Identifier</th>
-						<th>Client</th>
-						<th>Protocol</th>
-					</tr>
-					<core:forEach items="${principals}" var="principal">
-						<tr>
-							<td><a class="form-link" href="principals/${principal.id}/aliases" title="Edit Existing Aliases">Edit</a></td>
-							<td>${principal.identifier}</td>
-							<core:forEach items="${principal.aliases}" var="alias">
-								<td>${alias.identifier}</td>
-								<td>${alias.client}</td>
-								<td>${alias.protocol}</td>
-							</core:forEach>
-						</tr>
-					</core:forEach>
-					<tr><td><a class="form-link" href="principals/new" title="Add a New Principal">Add</a></td></tr>
-				</table>
-			</div>
+			<moologger:principals />
+			<a href="/principals/new">Add New Principal</a>
 		</main>
-	    
-	    <moologger:footer />
+
+		<footer>
+			<moologger:info />
+		</footer>
     </body>
 </html>

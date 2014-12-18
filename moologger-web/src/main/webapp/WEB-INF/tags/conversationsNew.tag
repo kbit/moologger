@@ -1,6 +1,6 @@
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
 
-<form:form action="logs/new" enctype="multipart/form-data" method="POST">
+<form:form action="conversations/new" enctype="multipart/form-data" method="POST">
     <ol>
         <li>
             <form:label path="client">Client</form:label>

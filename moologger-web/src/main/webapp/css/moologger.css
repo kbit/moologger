@@ -29,7 +29,7 @@ ul li {
 }
 
 nav {
-	background-color: rgba(12, 79, 12, 1);
+	background-color: rgb(12, 79, 12);
 	height: 2.4em;
 }
 
@@ -42,7 +42,7 @@ nav li {
 }
 
 nav a {
-	color: #ffffff;
+	color: rgb(255, 255, 255);
 	font-size: 1.2em;
 	padding: 0.6em 1em 0.6em 1em;
 	text-align: left;
@@ -50,18 +50,49 @@ nav a {
 }
 
 nav a:hover {
-	color: #FFFFFF;
-	background-color: rgba(26, 98, 26, 1);
+	color: rgb(255, 255, 255);
+	background-color: rgb(26, 98, 26);
 }
 
 main {
-	background: #FFFFFF;
+	background: rgb(255, 255, 255);
 	padding: 1em 1em 3em 1em;
+}
+
+table {
+	border: 1px solid rgb(0, 0, 0);
+}
+
+table th, table td {
+	padding: 0.5em;
+	text-align: center;
+	border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+table thead th {
+	font-size: 1.2em;
+}
+
+table thead tr:nth-child(odd) {
+	background-color: rgb(54, 34, 178);
+	color: rgb(255, 255, 255);
+}
+
+table thead tr:nth-child(even) {
+	background-color: rgb(224, 255, 255);
+}
+
+table tbody tr:nth-child(odd) {
+	background-color: rgb(255, 255, 255);
+}
+
+table tbody tr:nth-child(even) {
+	background-color: rgb(238, 238, 238);
 }
 
 footer {
 	clear: both;
-	background: #F5F0EE;
+	background: rgb(245, 244, 241);
 	bottom: 0;
 	height: 3em;
 	position: absolute;
@@ -73,13 +104,25 @@ footer p {
 	text-align: right;
 }
 
-.conversation-header {
+.conversation {
 	clear: both;
-	background: #E0FFFF;
+	background: rgb(224, 255, 255);
 	border-radius: 1em;
 	margin: 0.5em;
 	padding: 0.5em;
 	text-align: center;
+}
+
+.conversation-title {
+	font-size: 1.2em;
+}
+
+.conversation-actions {
+	float: right;
+}
+
+.conversation-actions a {
+	text-decoration: none;
 }
 
 .message {
@@ -87,7 +130,7 @@ footer p {
 	padding: 1em;
 }
 
-.message-alias {
+.message-title {
 	float: left;
 	width: 20%;
 }
