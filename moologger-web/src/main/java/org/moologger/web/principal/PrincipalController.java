@@ -2,10 +2,9 @@ package org.moologger.web.principal;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.moologger.core.Principal;
 import org.moologger.core.repository.PrincipalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,9 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/principals")
 public class PrincipalController {
-	
-	@Resource
+
 	private PrincipalRepository principalRepository;
+
+	@Autowired
+	public PrincipalController(PrincipalRepository principalRepository) {
+		this.principalRepository = principalRepository;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllPrincipals(Model model, @ModelAttribute("principals") List<Principal> principals) {

@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.moologger.core.Conversation;
 import org.moologger.core.parser.registry.ParserRegistry;
 import org.moologger.core.repository.ConversationRepository;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,12 +22,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/conversations")
 public class ConversationController {
-	
-	@Resource
-	private ParserRegistry parserRegistry;
-	
-	@Resource
+
 	private ConversationRepository conversationRepository;
+
+	private ParserRegistry parserRegistry;
+
+	@Autowired
+	public ConversationController(ConversationRepository conversationRepository, ParserRegistry parserRegistry) {
+		this.conversationRepository = conversationRepository;
+		this.parserRegistry = parserRegistry;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllConversations(Model model, @ModelAttribute("conversations") List<Conversation> conversations) {
