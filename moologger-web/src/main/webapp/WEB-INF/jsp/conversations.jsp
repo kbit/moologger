@@ -16,7 +16,7 @@
     	
     	<main>
 			<moologger:conversations />
-			<a href="/conversations/new">Add New Conversation</a>
+			<a href="/conversations/new" title="Add">add</a>
 		</main>
 
 		<footer>

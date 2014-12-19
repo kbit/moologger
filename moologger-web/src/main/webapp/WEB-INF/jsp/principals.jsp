@@ -16,7 +16,7 @@
     	
 		<main>
 			<moologger:principals />
-			<a href="/principals/new">Add New Principal</a>
+			<a href="/principals/new" title="Add">add</a>
 		</main>
 
 		<footer>

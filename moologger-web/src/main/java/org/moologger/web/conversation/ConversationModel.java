@@ -3,28 +3,29 @@ package org.moologger.web.conversation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.moologger.core.Conversation;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ConversationModel {
-	
-	private String client;
-	private String protocol;
-	private List<MultipartFile> files = new ArrayList<MultipartFile>();
-	 
-	public String getClient() {
-		return client;
+
+	private Conversation conversation;
+
+	private List<MultipartFile> files = new ArrayList<>();
+
+	public ConversationModel() {
+		this(new Conversation());
 	}
 
-	public void setClient(String client) {
-		this.client = client;
+	public ConversationModel(Conversation conversation) {
+		this.conversation = conversation;
 	}
 
-	public String getProtocol() {
-		return protocol;
+	public Conversation getConversation() {
+		return conversation;
 	}
 
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
+	public void setConversation(Conversation conversation) {
+		this.conversation = conversation;
 	}
 
 	public List<MultipartFile> getFiles() {

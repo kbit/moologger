@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>New Principal</title>
+        <title>Principal :: New</title>
         
         <link rel="stylesheet" type="text/css" href="<core:url value="/css/main.css" />" />
     	<script type="text/javascript" src="<core:url value="/js/jquery-1.9.0-min.js" />"></script>

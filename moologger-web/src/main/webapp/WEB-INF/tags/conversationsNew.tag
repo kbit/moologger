@@ -1,17 +1,17 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
-<form:form action="conversations/new" enctype="multipart/form-data" method="POST">
+<form:form modelAttribute="conversationModel" action="conversations" method="POST">
     <ol>
         <li>
-            <form:label path="client">Client</form:label>
-            <form:select path="client">
+            <form:label path="conversation.client">Client</form:label>
+            <form:select path="conversation.client">
                 <form:option value="" label="Select" />
                 <form:options items="${clients}" />
             </form:select>
         </li>
         <li>
-            <form:label path="protocol">Protocol</form:label>
-            <form:select path="protocol">
+            <form:label path="conversation.protocol">Protocol</form:label>
+            <form:select path="conversation.protocol">
                 <form:option value="" label="Select" />
                 <form:options items="${protocols}" />
             </form:select>
@@ -21,7 +21,7 @@
             <input name="files" type="file" multiple="" />
         </li>
         <li>
-            <input name="Submit" type="submit" />
+            <input type="submit" value="add" />
         </li>
     </ol>
 </form:form>

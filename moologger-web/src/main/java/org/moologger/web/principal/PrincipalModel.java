@@ -1,15 +1,25 @@
 package org.moologger.web.principal;
 
+import org.moologger.core.Principal;
+
 public class PrincipalModel {
 	
-	private String identifier;
+	private Principal principal;
 
-	public String getIdentifier() {
-		return identifier;
+	public PrincipalModel() {
+		this(new Principal());
 	}
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public PrincipalModel(Principal principal) {
+		this.principal = principal;
+	}
+
+	public Principal getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(Principal principal) {
+		this.principal = principal;
 	}
 
 }
