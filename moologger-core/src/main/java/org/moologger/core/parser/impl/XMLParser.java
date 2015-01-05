@@ -69,7 +69,7 @@ public abstract class XMLParser implements Parser {
 		List<Node> messages = node.selectNodes("message");
 		
 		for (Node message : messages) {
-			conversation.addMessage(getMessage(message, conversation.getStartTimestamp(), conversation.getEndTimestamp()));
+			conversation.getMessages().add(getMessage(message, conversation.getStartTimestamp(), conversation.getEndTimestamp()));
 		}
 		
 		return getConversation(conversation);

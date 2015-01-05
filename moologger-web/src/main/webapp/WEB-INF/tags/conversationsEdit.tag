@@ -16,11 +16,9 @@
 
 <form:form modelAttribute="conversationModel" action="/conversations/${conversationModel.conversation.id}" method="PUT">
     <core:forEach items="${conversationModel.conversation.messages}" var="message" varStatus="status">
-        <format:formatDate var="timestamp" value="${message.timestamp}" type="time"/>
-
         <div class="message">
             <div class="message-title">
-                <form:input path="conversation.messages[${status.index}].identifier" /> (<form:input path="conversation.messages[${status.index}].timestamp" value="${timestamp}" />)
+                <form:input path="conversation.messages[${status.index}].identifier" /> (<form:input path="conversation.messages[${status.index}].timestamp" />)
             </div>
             <div class="message-text">
                 <form:input path="conversation.messages[${status.index}].text" />

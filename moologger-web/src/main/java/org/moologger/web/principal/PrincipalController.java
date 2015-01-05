@@ -69,10 +69,10 @@ public class PrincipalController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public String deleteEditConversation(@PathVariable String id) {
+	public String deleteEditPrincipal(@PathVariable String id) {
 		principalRepository.delete(id);
 
-		return "redirect:/conversations";
+		return "redirect:/principals";
 	}
 
 	@ModelAttribute("principals")

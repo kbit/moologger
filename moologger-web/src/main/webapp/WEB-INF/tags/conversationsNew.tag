@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
-<form:form modelAttribute="conversationModel" action="conversations" method="POST">
+<form:form modelAttribute="conversationModel" action="/conversations" method="POST" enctype="multipart/form-data">
     <ol>
         <li>
             <form:label path="conversation.client">Client</form:label>

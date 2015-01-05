@@ -1,11 +1,12 @@
 package org.moologger.core;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,27 +32,47 @@ public class Log {
 	}
 	
 	public Set<Principal> getPrincipals() {
-		return Collections.unmodifiableSet(principals);
+		return principals;
 	}
 	
-	public void addPrincipal(Principal principal) {
-		principals.add(principal);
-	}
-	
-	public void deletePrincipal(Principal principal) {
-		principals.remove(principal);
+	public void setPrincipals(Set<Principal> principals) {
+		this.principals = principals;
 	}
 
 	public List<Conversation> getConversations() {
-		return Collections.unmodifiableList(conversations);
+		return conversations;
 	}
 
-	public void addConversation(Conversation conversation) {
-		conversations.add(conversation);
+	public void setConversations(List<Conversation> conversations) {
+		this.conversations = conversations;
 	}
-	
-	public void deleteConversation(Conversation conversation) {
-		conversations.remove(conversation);
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+
+		Log log = (Log) obj;
+
+		return new EqualsBuilder().append(principals, log.principals)
+							      .append(conversations, log.conversations)
+								  .isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(principals)
+									.append(conversations)
+									.toHashCode();
 	}
 
 }

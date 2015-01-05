@@ -59,7 +59,7 @@ public class Alias {
 	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder(17, 37)
+		return new HashCodeBuilder()
 			.append(identifier)
 	    	.append(client)
 	    	.append(protocol)

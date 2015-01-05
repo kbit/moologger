@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
-<form:form modelAttribute="principalModel" action="/principals/${conversationModel.conversation.id}" method="DELETE">
+<form:form modelAttribute="principalModel" action="/principals/${principalModel.principal.id}" method="DELETE">
     <input type="submit" value="delete" />
 </form:form>
 

@@ -1,10 +1,11 @@
 package org.moologger.core;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Conversation {
 
 	private Date endTimestamp;
 
-	private List<Message> messages = new ArrayList<Message>();
+	private List<Message> messages = new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -65,15 +66,45 @@ public class Conversation {
 	}
 
 	public List<Message> getMessages() {
-		return Collections.unmodifiableList(messages);
+		return messages;
 	}
 	
-	public void addMessage(Message message) {
-		messages.add(message);
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
-	
-	public void deleteMessage(Message message) {
-		messages.remove(message);
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+
+		Conversation conversation = (Conversation) obj;
+
+		return new EqualsBuilder().append(client, conversation.client)
+				                  .append(protocol, conversation.protocol)
+								  .append(startTimestamp, conversation.startTimestamp)
+								  .append(endTimestamp, conversation.endTimestamp)
+								  .append(messages, conversation.messages)
+							      .isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(client)
+									.append(protocol)
+									.append(startTimestamp)
+									.append(endTimestamp)
+									.append(messages)
+									.toHashCode();
 	}
 	
 }
