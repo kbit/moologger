@@ -95,13 +95,18 @@ footer {
 	background: rgb(245, 244, 241);
 	bottom: 0;
 	height: 3em;
-	position: absolute;
+	margin-top: -3em;
+	position: relative;
 	width: 100%;
 }
 
 footer p {
 	padding: 1em;
 	text-align: right;
+}
+
+.elastic {
+	min-height: 100%;
 }
 
 .conversation {

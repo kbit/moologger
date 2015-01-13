@@ -10,13 +10,15 @@
         <script type="text/javascript" src="<core:url value="/js/moologger.js" />"></script>
     </head>
     <body>
-        <header>
-            <moologger:nav />
-        </header>
+        <div class="elastic">
+            <header>
+                <moologger:nav />
+            </header>
 
-        <main>
-            <moologger:conversationsNew />
-        </main>
+            <main>
+                <moologger:conversationsNew />
+            </main>
+        </div>
 
         <footer>
             <moologger:info />
