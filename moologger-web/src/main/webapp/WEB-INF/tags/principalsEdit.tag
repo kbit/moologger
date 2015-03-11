@@ -13,7 +13,7 @@
         <li>
             <form:label path="principal.aliases">Aliases</form:label>
             <form:select path="principal.aliases" multiple="true">
-                <form:options items="${principalModel.principal.aliases}" itemLabel="identifier" itemValue="identifier" />
+                <form:options items="${aliases}" itemLabel="identifier" itemValue="key" />
             </form:select>
         </li>
         <li>

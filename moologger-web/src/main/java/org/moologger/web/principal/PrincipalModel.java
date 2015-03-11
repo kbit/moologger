@@ -1,6 +1,6 @@
 package org.moologger.web.principal;
 
-import org.moologger.core.Principal;
+import org.moologger.core.model.Principal;
 
 public class PrincipalModel {
 	

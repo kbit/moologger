@@ -2,13 +2,19 @@ package org.moologger.web.conversation;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.moologger.core.Conversation;
+import com.google.common.collect.Maps;
+import org.moologger.core.MoologgerCoreUtil;
+import org.moologger.core.model.Conversation;
+import org.moologger.core.model.Message;
+import org.moologger.core.model.Principal;
 import org.moologger.core.parser.registry.ParserRegistry;
 import org.moologger.core.repository.ConversationRepository;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
+import org.moologger.core.repository.PrincipalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,17 +31,42 @@ public class ConversationController {
 
 	private ConversationRepository conversationRepository;
 
+    private PrincipalRepository principalRepository;
+
 	private ParserRegistry parserRegistry;
 
 	@Autowired
-	public ConversationController(ConversationRepository conversationRepository, ParserRegistry parserRegistry) {
+	public ConversationController(ConversationRepository conversationRepository, PrincipalRepository principalRepository, ParserRegistry parserRegistry) {
 		this.conversationRepository = conversationRepository;
+        this.principalRepository = principalRepository;
 		this.parserRegistry = parserRegistry;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllConversations(Model model, @ModelAttribute("conversations") List<Conversation> conversations) {
 		model.addAttribute(conversations);
+
+        Map<String, String> aliases = Maps.newHashMap();
+
+        for (Conversation conversation : conversations) {
+            String client = conversation.getClient();
+            String protocol = conversation.getProtocol();
+            List<Message> messages = conversation.getMessages();
+
+            for (Message message : messages) {
+                String alias = message.getAlias();
+                String key = MoologgerCoreUtil.buildAliasKey(client, protocol, alias);
+
+                if (!aliases.containsKey(key)) {
+                    Principal principal = principalRepository.findOneByAliasKey(key);
+                    String identifier = principal != null ? principal.getIdentifier() : alias;
+
+                    aliases.put(key, identifier);
+                }
+            }
+        }
+
+        model.addAttribute("aliases", aliases);
 		
 		return "conversations";
 	}

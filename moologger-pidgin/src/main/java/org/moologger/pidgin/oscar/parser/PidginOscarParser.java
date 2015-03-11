@@ -7,15 +7,15 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.dom4j.Node;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.moologger.core.Client;
-import org.moologger.core.Conversation;
-import org.moologger.core.Message;
-import org.moologger.core.Protocol;
+import org.moologger.core.model.Client;
+import org.moologger.core.model.Conversation;
+import org.moologger.core.model.Message;
+import org.moologger.core.model.Protocol;
 import org.moologger.core.parser.ParserException;
 import org.moologger.core.parser.impl.XMLParser;
 import org.springframework.stereotype.Component;

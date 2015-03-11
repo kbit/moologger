@@ -18,7 +18,7 @@
     <core:forEach items="${conversationModel.conversation.messages}" var="message" varStatus="status">
         <div class="message">
             <div class="message-title">
-                <form:input path="conversation.messages[${status.index}].identifier" /> (<form:input path="conversation.messages[${status.index}].timestamp" />)
+                <form:input path="conversation.messages[${status.index}].alias" /> (<form:input path="conversation.messages[${status.index}].timestamp" />)
             </div>
             <div class="message-text">
                 <form:input path="conversation.messages[${status.index}].text" />

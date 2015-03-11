@@ -1,6 +1,8 @@
 package org.moologger.core.repository.impl;
 
-import org.moologger.core.Principal;
+import org.moologger.core.model.Alias;
+import org.moologger.core.MoologgerCoreUtil;
+import org.moologger.core.model.Principal;
 import org.moologger.core.repository.PrincipalRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +22,24 @@ public class PrincipalRepositoryImpl implements PrincipalRepositoryCustom {
     @Override
     public boolean existsByIdentifier(String identifier) {
         return mongoTemplate.count(query(where("identifier").is(identifier)), Principal.class) > 0;
+    }
+
+    @Override
+    public Principal findOneByAliasKey(String key) {
+        String client = MoologgerCoreUtil.getClient(key);
+        String protocol = MoologgerCoreUtil.getProtocol(key);
+        String identifier = MoologgerCoreUtil.getIdentifier(key);
+
+        return mongoTemplate.findOne(query(where("aliases").elemMatch(where("client").is(client).and("protocol").is(protocol).and("identifier").is(identifier))), Principal.class);
+    }
+
+    @Override
+    public Alias findOneAliasByAliasKey(String key) {
+        String client = MoologgerCoreUtil.getClient(key);
+        String protocol = MoologgerCoreUtil.getProtocol(key);
+        String identifier = MoologgerCoreUtil.getIdentifier(key);
+
+        return mongoTemplate.findOne(query(where("client").is(client).and("protocol").is(protocol).and("identifier").is(identifier)), Alias.class);
     }
 
 }

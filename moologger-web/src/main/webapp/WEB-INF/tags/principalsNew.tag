@@ -7,6 +7,12 @@
             <form:input path="principal.identifier" />
         </li>
         <li>
+            <form:label path="principal.aliases">Aliases</form:label>
+            <form:select path="principal.aliases" multiple="true">
+                <form:options items="${aliases}" itemLabel="identifier" itemValue="key" />
+            </form:select>
+        </li>
+        <li>
             <input type="submit" value="add" />
         </li>
     </ol>

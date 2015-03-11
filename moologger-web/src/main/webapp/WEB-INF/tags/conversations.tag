@@ -13,11 +13,13 @@
             </span>
     </div>
     <core:forEach items="${conversation.messages}" var="message">
+        <core:set var="aliasKey" value="${conversation.client}+${conversation.protocol}=${message.alias}" />
+        <core:set var="alias" value="${aliases[aliasKey]}" />
         <format:formatDate var="timestamp" value="${message.timestamp}" type="time"/>
 
         <div class="message">
             <div class="message-title">
-                    ${message.identifier} (${timestamp})
+                    ${alias} (${timestamp})
             </div>
             <div class="message-text">
                     ${message.text}

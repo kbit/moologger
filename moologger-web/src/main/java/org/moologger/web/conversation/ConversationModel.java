@@ -3,7 +3,7 @@ package org.moologger.web.conversation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.moologger.core.Conversation;
+import org.moologger.core.model.Conversation;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ConversationModel {

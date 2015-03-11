@@ -1,4 +1,4 @@
-package org.moologger.core;
+package org.moologger.core.model;
 
 public enum Protocol {
 	

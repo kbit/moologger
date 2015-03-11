@@ -10,15 +10,15 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cyberneko.html.parsers.DOMParser;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.DOMReader;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
-import org.moologger.core.Conversation;
-import org.moologger.core.Message;
+import org.moologger.core.model.Conversation;
+import org.moologger.core.model.Message;
 import org.moologger.core.parser.Parser;
 import org.moologger.core.parser.ParserException;
 import org.xml.sax.InputSource;
@@ -109,7 +109,7 @@ public abstract class XMLParser implements Parser {
 		Message message = new Message();
 		
 		message.setTimestamp(getTimestamp(node, startTimestamp, endTimestamp));
-		message.setIdentifier(getIdentifier(node));
+		message.setAlias(getAlias(node));
 		message.setText(getText(node));
 		
 		return message;
@@ -129,16 +129,16 @@ public abstract class XMLParser implements Parser {
 	
 	protected abstract Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException;
 	
-	private String getIdentifier(Node node) throws ParserException {
-		String identifier = StringUtils.EMPTY;
+	private String getAlias(Node node) throws ParserException {
+		String alias = StringUtils.EMPTY;
 
 		Node aliasNode = node.selectSingleNode("alias");
 		
 		if (aliasNode != null) {
-			identifier = aliasNode.getText();
+            alias = aliasNode.getText();
 		}
 		
-		return identifier;
+		return alias;
 	}
 	
 	@SuppressWarnings("unchecked")

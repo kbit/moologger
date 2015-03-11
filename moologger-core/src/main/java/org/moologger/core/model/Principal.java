@@ -1,7 +1,7 @@
-package org.moologger.core;
+package org.moologger.core.model;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,7 +16,7 @@ public class Principal {
 
 	private String identifier;
 
-	private List<Alias> aliases = new ArrayList<Alias>();
+	private List<Alias> aliases = new ArrayList<>();
 	
 	public String getId() {
 		return id;

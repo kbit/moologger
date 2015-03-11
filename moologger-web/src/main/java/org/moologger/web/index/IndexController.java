@@ -1,6 +1,6 @@
 package org.moologger.web.index;
 
-import org.moologger.core.Conversation;
+import org.moologger.core.model.Conversation;
 import org.moologger.core.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

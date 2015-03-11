@@ -2,7 +2,7 @@ package org.moologger.core.parser;
 
 import java.io.InputStream;
 
-import org.moologger.core.Conversation;
+import org.moologger.core.model.Conversation;
 
 public interface Parser {
 	
