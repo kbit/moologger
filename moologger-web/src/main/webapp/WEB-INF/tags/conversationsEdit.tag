@@ -1,11 +1,12 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
-<format:formatDate var="startTimestamp" value="${conversationModel.conversation.startTimestamp}" type="both"/>
-<format:formatDate var="endTimestamp" value="${conversationModel.conversation.endTimestamp}" type="both"/>
-
 <div class="conversation">
+    <format:formatDate var="startDate" value="${moo:toDate(conversationModel.conversation.startTimestamp)}" type="date"/>
+    <format:formatDate var="startTime" value="${moo:toDate(conversationModel.conversation.startTimestamp)}" type="time"/>
+    <format:formatDate var="endTime" value="${moo:toDate(conversationModel.conversation.endTimestamp)}" type="time"/>
+
     <span class="conversation-title">
-        Conversation - ${startTimestamp}-${endTimestamp}
+        Conversation - ${startDate}: ${startTime}-${endTime}
     </span>
     <span class="conversation-actions">
         <form:form modelAttribute="conversationModel" action="/conversations/${conversationModel.conversation.id}" method="DELETE">

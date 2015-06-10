@@ -3,21 +3,41 @@ package org.moologger.core.model;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Comparable<Message> {
 
-	private Date timestamp;
+	private String client;
+
+	private String protocol;
+
+	private LocalDateTime timestamp;
 
 	private String alias;
 
 	private String text;
 
-	public Date getTimestamp() {
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
 	
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -66,5 +86,14 @@ public class Message {
 									.append(text)
 									.toHashCode();
 	}
+
+    @Override
+    public int compareTo(Message message) {
+        if (timestamp == null || message.timestamp == null) {
+            return 0;
+        }
+
+        return timestamp.compareTo(message.timestamp);
+    }
 
 }

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.moologger.core.MoologgerCoreUtil;
 import org.moologger.core.model.Conversation;
 import org.moologger.core.model.Message;
@@ -49,11 +51,11 @@ public class ConversationController {
         Map<String, String> aliases = Maps.newHashMap();
 
         for (Conversation conversation : conversations) {
-            String client = conversation.getClient();
-            String protocol = conversation.getProtocol();
-            List<Message> messages = conversation.getMessages();
+            SortedSet<Message> messages = conversation.getMessages();
 
             for (Message message : messages) {
+				String client = message.getClient();
+				String protocol = message.getProtocol();
                 String alias = message.getAlias();
                 String key = MoologgerCoreUtil.buildAliasKey(client, protocol, alias);
 
@@ -82,8 +84,8 @@ public class ConversationController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String addNewConversation(@ModelAttribute ConversationModel conversationModel) {
-		String client = conversationModel.getConversation().getClient();
-		String protocol = conversationModel.getConversation().getProtocol();
+		String client = conversationModel.getClient();
+		String protocol = conversationModel.getProtocol();
 		List<MultipartFile> files = conversationModel.getFiles();
 		
 		Parser parser = parserRegistry.getParser(client, protocol);
@@ -127,8 +129,8 @@ public class ConversationController {
 	}
 
 	@ModelAttribute("conversations")
-	public List<Conversation> getConversations() {
-		return conversationRepository.findAll();
+	public SortedSet<Conversation> getConversations() {
+		return Sets.newTreeSet(conversationRepository.findAll());
 	}
 
 	@ModelAttribute("clients")

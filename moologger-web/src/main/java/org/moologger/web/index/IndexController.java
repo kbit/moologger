@@ -1,5 +1,6 @@
 package org.moologger.web.index;
 
+import com.google.common.collect.Sets;
 import org.moologger.core.model.Conversation;
 import org.moologger.core.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.SortedSet;
 
 @Controller
 @RequestMapping("/")
@@ -30,8 +32,8 @@ public class IndexController {
     }
 
     @ModelAttribute("conversations")
-    public List<Conversation> getConversations() {
-        return conversationRepository.findAll();
+    public SortedSet<Conversation> getConversations() {
+        return Sets.newTreeSet(conversationRepository.findAll());
     }
 
 }

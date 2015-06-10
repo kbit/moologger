@@ -32,10 +32,7 @@ public class MoologgerWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public MultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(100000);
-
-        return multipartResolver;
+        return new CommonsMultipartResolver();
     }
 
 }

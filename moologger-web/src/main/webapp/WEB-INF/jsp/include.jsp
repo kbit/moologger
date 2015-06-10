@@ -3,4 +3,5 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<%@ taglib prefix="moo" uri="/WEB-INF/moologger.tld" %>
 <%@ taglib prefix="moologger" tagdir="/WEB-INF/tags" %>

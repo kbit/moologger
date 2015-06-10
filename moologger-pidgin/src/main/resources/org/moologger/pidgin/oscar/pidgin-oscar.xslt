@@ -3,9 +3,9 @@
 	
 	<xsl:template match="/">
 		<conversation>
-    		<startTimestamp>
+    		<timestamp>
     			<xsl:apply-templates select="//H3" />
-    		</startTimestamp>
+    		</timestamp>
 			<xsl:apply-templates select="//FONT[@color]" />
     	</conversation>
 	</xsl:template>

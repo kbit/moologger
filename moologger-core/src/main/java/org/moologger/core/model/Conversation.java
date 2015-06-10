@@ -1,29 +1,21 @@
 package org.moologger.core.model;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.SortedSet;
 
 @Document
-public class Conversation {
+public class Conversation implements Comparable<Conversation> {
 	
 	@Id
 	private String id;
 
-	private String client;
-
-	private String protocol;
-
-	private Date startTimestamp;
-
-	private Date endTimestamp;
-
-	private List<Message> messages = new ArrayList<>();
+	private SortedSet<Message> messages = Sets.newTreeSet();
 	
 	public String getId() {
 		return id;
@@ -32,46 +24,30 @@ public class Conversation {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getClient() {
-		return client;
-	}
 
-	public void setClient(String client) {
-		this.client = client;
-	}
-
-	public String getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
-	
-	public Date getStartTimestamp() {
-		return startTimestamp;
-	}
-	
-	public void setStartTimestamp(Date startTimestamp) {
-		this.startTimestamp = startTimestamp;
-	}
-	
-	public Date getEndTimestamp() {
-		return endTimestamp;
-	}
-	
-	public void setEndTimestamp(Date endTimestamp) {
-		this.endTimestamp = endTimestamp;
-	}
-
-	public List<Message> getMessages() {
+	public SortedSet<Message> getMessages() {
 		return messages;
 	}
 	
-	public void setMessages(List<Message> messages) {
+	public void setMessages(SortedSet<Message> messages) {
 		this.messages = messages;
 	}
+
+    public LocalDateTime getStartTimestamp() {
+        if (messages.isEmpty() || messages.first().getTimestamp() == null) {
+            return null;
+        }
+
+        return messages.first().getTimestamp();
+    }
+
+    public LocalDateTime getEndTimestamp() {
+        if (messages.isEmpty() || messages.last().getTimestamp() == null) {
+            return null;
+        }
+
+        return messages.last().getTimestamp();
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -89,22 +65,22 @@ public class Conversation {
 
 		Conversation conversation = (Conversation) obj;
 
-		return new EqualsBuilder().append(client, conversation.client)
-				                  .append(protocol, conversation.protocol)
-								  .append(startTimestamp, conversation.startTimestamp)
-								  .append(endTimestamp, conversation.endTimestamp)
-								  .append(messages, conversation.messages)
+		return new EqualsBuilder().append(messages, conversation.messages)
 							      .isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(client)
-									.append(protocol)
-									.append(startTimestamp)
-									.append(endTimestamp)
-									.append(messages)
+		return new HashCodeBuilder().append(messages)
 									.toHashCode();
 	}
-	
+
+    @Override
+    public int compareTo(Conversation conversation) {
+        if (messages.isEmpty() || conversation.messages.isEmpty()) {
+            return 0;
+        }
+
+        return messages.first().compareTo(conversation.messages.first());
+    }
 }

@@ -1,20 +1,17 @@
 package org.moologger.pidgin.oscar.parser;
 
 import java.io.InputStream;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.dom4j.Node;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.moologger.core.model.Client;
-import org.moologger.core.model.Conversation;
-import org.moologger.core.model.Message;
 import org.moologger.core.model.Protocol;
 import org.moologger.core.parser.ParserException;
 import org.moologger.core.parser.impl.XMLParser;
@@ -22,9 +19,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PidginOscarParser extends XMLParser {
-	
+
 	private static final String FULL_DATE_FORMAT = "EEE dd MMM yyyy hh:mm:ss aa zzz";
-	private static final String TWELVE_HOUR_TIME_FORMAT = "(hh:mm:ss a)";
+	private static final String DATE_FORMAT = "MM/dd/yyyy";
+	private static final String TIME_FORMAT = "hh:mm:ss a";
 	
 	public String getClient() {
 		return Client.PIDGIN.description();
@@ -39,46 +37,22 @@ public class PidginOscarParser extends XMLParser {
 		return new StreamSource(xslt);
 	}
 	
-	protected Date getConversationStartTimestamp(String conversationStartTimestampString) throws ParserException {
-		Date conversationStartTimestamp;
-		
-		try {
-			conversationStartTimestamp = DateUtils.parseDate(conversationStartTimestampString, new String[] {FULL_DATE_FORMAT});
-		} catch (ParseException pe) {
-			throw new ParserException(pe);
-		}
-		
-		return conversationStartTimestamp;
+	protected LocalDateTime getConversationTimestamp(String conversationTimestampString) throws ParserException {
+		return LocalDateTime.parse(conversationTimestampString, DateTimeFormatter.ofPattern(FULL_DATE_FORMAT));
 	}
 	
-	protected Date getConversationEndTimestamp(String conversationEndTimestampString) throws ParserException {
-		return null;
-	}
-	
-	protected Conversation getConversation(Conversation conversation) {
-		List<Message> messages = conversation.getMessages();
-		Message firstMessage = messages.get(0);
-		Message lastMessage = messages.get(messages.size() - 1);
-		
-		conversation.setStartTimestamp(firstMessage.getTimestamp());
-		conversation.setEndTimestamp(lastMessage.getTimestamp());
-		
-		return conversation;
-	}
-	
-	protected Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException {
-		Date timestamp;
+	protected LocalDateTime getMessageTimestamp(String timestampString, LocalDateTime conversationTimestamp) throws ParserException {
+		DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                .appendLiteral("(")
+                .optionalStart().appendPattern(DATE_FORMAT).appendLiteral(" ").optionalEnd()
+                .appendPattern(TIME_FORMAT)
+                .appendLiteral(")");
 
-		try {
-			LocalDate date = new LocalDate(startTimestamp);
-			LocalTime time = new LocalTime(DateUtils.parseDate(timestampString, new String[] {TWELVE_HOUR_TIME_FORMAT}));
-			
-			timestamp = date.toLocalDateTime(time).toDate();
-		} catch (ParseException pe) {
-			throw new ParserException(pe);
-		}
-		
-		return timestamp;
+        builder.parseDefaulting(ChronoField.YEAR, ChronoField.YEAR.getFrom(conversationTimestamp));
+        builder.parseDefaulting(ChronoField.MONTH_OF_YEAR, ChronoField.MONTH_OF_YEAR.getFrom(conversationTimestamp));
+        builder.parseDefaulting(ChronoField.DAY_OF_MONTH, ChronoField.DAY_OF_MONTH.getFrom(conversationTimestamp));
+
+        return LocalDateTime.parse(timestampString, builder.toFormatter());
 	}
 	
 	protected String getText(List<Node> nodes) {

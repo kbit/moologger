@@ -21,7 +21,7 @@
 
         <slf4j.version>1.7.7</slf4j.version>
         <spring.framework.version>4.1.2.RELEASE</spring.framework.version>
-		<spring.data.mongo.version>1.6.1.RELEASE</spring.data.mongo.version>
+		<spring.data.mongo.version>1.7.0.RELEASE</spring.data.mongo.version>
 	</properties>
 
     <dependencies>

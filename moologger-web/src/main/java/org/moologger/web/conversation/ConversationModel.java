@@ -8,9 +8,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ConversationModel {
 
-	private Conversation conversation;
+	private String client;
+
+	private String protocol;
 
 	private List<MultipartFile> files = new ArrayList<>();
+
+	private Conversation conversation;
 
 	public ConversationModel() {
 		this(new Conversation());
@@ -20,20 +24,36 @@ public class ConversationModel {
 		this.conversation = conversation;
 	}
 
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+
 	public Conversation getConversation() {
 		return conversation;
 	}
 
 	public void setConversation(Conversation conversation) {
 		this.conversation = conversation;
-	}
-
-	public List<MultipartFile> getFiles() {
-		return files;
-	}
-	 
-	public void setFiles(List<MultipartFile> files) {
-		this.files = files;
 	}
 
 }

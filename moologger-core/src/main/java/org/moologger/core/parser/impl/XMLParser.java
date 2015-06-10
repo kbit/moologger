@@ -2,7 +2,7 @@ package org.moologger.core.parser.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.xml.transform.Transformer;
@@ -61,73 +61,54 @@ public abstract class XMLParser implements Parser {
 	private Conversation getConversation(Node node) throws ParserException {
 		Conversation conversation = new Conversation();
 
-		conversation.setClient(getClient());
-		conversation.setProtocol(getProtocol());
-		conversation.setStartTimestamp(getConversationStartTimestamp(node));
-		conversation.setEndTimestamp(getConversationEndTimestamp(node));
-		
 		List<Node> messages = node.selectNodes("message");
 		
 		for (Node message : messages) {
-			conversation.getMessages().add(getMessage(message, conversation.getStartTimestamp(), conversation.getEndTimestamp()));
+			conversation.getMessages().add(getMessage(message, getConversationTimestamp(node)));
 		}
 		
-		return getConversation(conversation);
+		return conversation;
 	}
-	
-	private Date getConversationStartTimestamp(Node node) throws ParserException {
-		Date conversationStartTimestamp = null;
-		
-		Node conversationStartTimestampNode = node.selectSingleNode("startTimestamp");
-		
-		if (conversationStartTimestampNode != null) {
-			conversationStartTimestamp = getConversationStartTimestamp(conversationStartTimestampNode.getText());
-		}
-		
-		return conversationStartTimestamp;
+
+	private LocalDateTime getConversationTimestamp(Node node) throws ParserException {
+        LocalDateTime conversationTimestamp = null;
+
+		Node conversationTimestampNode = node.selectSingleNode("timestamp");
+
+		if (conversationTimestampNode != null) {
+            conversationTimestamp = getConversationTimestamp(conversationTimestampNode.getText());
+        }
+
+        return conversationTimestamp;
 	}
+
+	protected abstract LocalDateTime getConversationTimestamp(String conversationStartTimestampString) throws ParserException;
 	
-	protected abstract Date getConversationStartTimestamp(String conversationStartTimestampString) throws ParserException;
-	
-	private Date getConversationEndTimestamp(Node node) throws ParserException {
-		Date conversationEndTimestamp = null;
-		
-		Node conversationEndTimestampNode = node.selectSingleNode("endTimestamp");
-		
-		if (conversationEndTimestampNode != null) {
-			conversationEndTimestamp = getConversationEndTimestamp(conversationEndTimestampNode.getText());
-		}
-		
-		return conversationEndTimestamp;
-	}
-	
-	protected abstract Date getConversationEndTimestamp(String endTimestampString) throws ParserException;
-	
-	protected abstract Conversation getConversation(Conversation conversation);
-	
-	private Message getMessage(Node node, Date startTimestamp, Date endTimestamp) throws ParserException {
+	private Message getMessage(Node node, LocalDateTime conversationTimestamp) throws ParserException {
 		Message message = new Message();
-		
-		message.setTimestamp(getTimestamp(node, startTimestamp, endTimestamp));
+
+		message.setClient(getClient());
+		message.setProtocol(getProtocol());
+		message.setTimestamp(getMessageTimestamp(node, conversationTimestamp));
 		message.setAlias(getAlias(node));
 		message.setText(getText(node));
 		
 		return message;
 	}
-	
-	private Date getTimestamp(Node node, Date startTimestamp, Date endTimestamp) throws ParserException {
-		Date timestamp = null;
-		
+
+	private LocalDateTime getMessageTimestamp(Node node, LocalDateTime conversationTimestamp) throws ParserException {
+        LocalDateTime timestamp = null;
+
 		Node timestampNode = node.selectSingleNode("timestamp");
 
 		if (timestampNode != null) {
-			timestamp = getTimestamp(timestampNode.getText(), startTimestamp, endTimestamp);
+			timestamp = getMessageTimestamp(timestampNode.getText(), conversationTimestamp);
 		}
-		
+
 		return timestamp;
 	}
-	
-	protected abstract Date getTimestamp(String timestampString, Date startTimestamp, Date endTimestamp) throws ParserException;
+
+	protected abstract LocalDateTime getMessageTimestamp(String timestampString, LocalDateTime conversationTimestamp) throws ParserException;
 	
 	private String getAlias(Node node) throws ParserException {
 		String alias = StringUtils.EMPTY;
